@@ -1,0 +1,48 @@
+{
+    "name": "bloques-sabana",
+    "version": "0.1.0",
+    "description": "BLOQUES SABANA — extensión de validación visual (textos, formas y colores) para MakeCode micro:bit",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "main.ts",
+        "blocks/categorias/sensores.ts",
+        "blocks/categorias/salidas.ts",
+        "blocks/categorias/movimiento.ts",
+        "blocks/categorias/motores.ts",
+        "blocks/categorias/pantallas.ts",
+        "blocks/categorias/variables.ts",
+        "blocks/categorias/especial.ts",
+        "blocks/sabana/puertos.ts",
+        "blocks/sabana/ultrasonido.ts",
+        "blocks/sabana/boton.ts",
+        "blocks/sabana/dht11.ts",
+        "blocks/sabana/color.ts",
+        "blocks/sabana/suelo.ts",
+        "blocks/sabana/potenciometro.ts",
+        "blocks/sabana/luz.ts",
+        "blocks/sabana/joystick.ts",
+        "blocks/sabana/tira_rgb.ts",
+        "blocks/sabana/led.ts",
+        "blocks/sabana/lcd.ts",
+        "blocks/sabana/oled.ts",
+        "blocks/sabana/motor_multicolor.ts",
+        "blocks/sabana/servo.ts",
+        "blocks/sabana/helice.ts",
+        "blocks/sabana/movimiento.ts",
+        "blocks/sabana/variables.ts",
+        "blocks/sabana/especial.ts",
+        "main.blocks",
+        "README.md"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": true,
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "blocksprj"
+}
