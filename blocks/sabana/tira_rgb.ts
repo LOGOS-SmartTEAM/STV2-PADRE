@@ -1,4 +1,4 @@
-namespace sabana_salidas {
+namespace bloques {
     /**
      * STV2-9 — Tira RGB de 6 LEDs en un puerto GPIO. Cada LED se elige con un
      * selector de color (paleta). Bloque solo de validación visual.
@@ -8,7 +8,7 @@ namespace sabana_salidas {
     //% led1.shadow="colorNumberPicker" led2.shadow="colorNumberPicker"
     //% led3.shadow="colorNumberPicker" led4.shadow="colorNumberPicker"
     //% led5.shadow="colorNumberPicker" led6.shadow="colorNumberPicker"
-    //% color="#fcbb2b" weight=100 blockGap=8
+    //% group="SALIDAS" color="#fcbb2b" weight=100 blockGap=8
     export function tiraRgb(
         led1: number, led2: number, led3: number,
         led4: number, led5: number, led6: number,
@@ -25,7 +25,7 @@ namespace sabana_salidas {
     //% r.min=0 r.max=255 r.defl=255
     //% g.min=0 g.max=255 g.defl=255
     //% b.min=0 b.max=255 b.defl=255
-    //% color="#fcbb2b" weight=90 blockGap=8
+    //% group="SALIDAS" color="#fcbb2b" weight=90 blockGap=8
     export function tiraRgbAjustada(r: number, g: number, b: number): void {
         // TODO: lógica real pendiente
     }

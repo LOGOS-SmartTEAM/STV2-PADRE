@@ -1,4 +1,4 @@
-namespace sabana_motores {
+namespace bloques {
     /**
      * STV2-21 — Hélice en un puerto GPIO. Reutiliza el enum
      * SabanaMovimientoMotorUnico definido en motor_multicolor.ts
@@ -6,7 +6,7 @@ namespace sabana_motores {
      */
     //% blockId=sabana_helice
     //% block="Hélice %sentido en el puerto %puerto"
-    //% color="#34c2eb" weight=75 blockGap=8
+    //% group="MOTORES" color="#34c2eb" weight=75 blockGap=8
     export function helice(sentido: SabanaMovimientoMotorUnico, puerto: SabanaPuerto): void {
         // TODO: lógica real pendiente
     }

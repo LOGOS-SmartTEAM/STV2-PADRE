@@ -1,4 +1,4 @@
-namespace sabana_sensores {
+namespace bloques {
     export enum SabanaEjeJoystick {
         //% block="Eje X"
         EjeX = 0,
@@ -11,7 +11,7 @@ namespace sabana_sensores {
      */
     //% blockId=sabana_joystick
     //% block="%eje Joystick en el puerto I2C"
-    //% color="#34c2eb" weight=65 blockGap=8
+    //% group="SENSORES" color="#34c2eb" weight=65 blockGap=8
     export function joystick(eje: SabanaEjeJoystick): number {
         return 0
     }

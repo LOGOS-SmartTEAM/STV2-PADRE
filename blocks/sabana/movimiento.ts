@@ -1,4 +1,4 @@
-namespace sabana_movimiento {
+namespace bloques {
     export enum SabanaMovimiento {
         //% block="Avanzar"
         Avanzar = 0,
@@ -26,7 +26,7 @@ namespace sabana_movimiento {
     //% block="Movimiento %movimiento || Velocidad %velocidad"
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
     //% expandableArgumentMode="toggle"
-    //% color="#34c2eb" weight=100 blockGap=8
+    //% group="MOVIMIENTO" color="#34c2eb" weight=100 blockGap=8
     export function movimientoSimple(movimiento: SabanaMovimiento, velocidad = 50): void {
         // TODO: lógica real pendiente
     }
@@ -39,7 +39,7 @@ namespace sabana_movimiento {
     //% cm.min=1 cm.max=500 cm.defl=10
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
     //% expandableArgumentMode="toggle"
-    //% color="#34c2eb" weight=90 blockGap=8
+    //% group="MOVIMIENTO" color="#34c2eb" weight=90 blockGap=8
     export function movimientoCm(movimiento: SabanaMovimiento, cm: number, velocidad = 50): void {
         // TODO: lógica real pendiente
     }
@@ -53,7 +53,7 @@ namespace sabana_movimiento {
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
     //% angulo.min=0 angulo.max=360 angulo.defl=90
     //% expandableArgumentMode="toggle"
-    //% color="#34c2eb" weight=80 blockGap=8
+    //% group="MOVIMIENTO" color="#34c2eb" weight=80 blockGap=8
     export function movimientoGirar(direccion: SabanaDireccionGiro, velocidad = 50, angulo = 90): void {
         // TODO: lógica real pendiente
     }

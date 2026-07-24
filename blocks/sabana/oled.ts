@@ -1,4 +1,4 @@
-namespace sabana_pantallas {
+namespace bloques {
     export enum SabanaOledFila {
         //% block="0"
         F0 = 0,
@@ -17,7 +17,7 @@ namespace sabana_pantallas {
     //% blockId=sabana_oled_escribir
     //% block="OLED Escribir %texto en la fila %fila columna %columna en el puerto I2C"
     //% texto.shadow=text texto.defl="abc"
-    //% color="#34c2eb" weight=90 blockGap=8
+    //% group="PANTALLAS" color="#34c2eb" weight=90 blockGap=8
     export function oledEscribir(texto: string, fila: SabanaOledFila, columna: SabanaColumna16): void {
         // TODO: lógica real pendiente
     }
@@ -27,7 +27,7 @@ namespace sabana_pantallas {
      */
     //% blockId=sabana_oled_borrar
     //% block="OLED borrar textos en el puerto I2C"
-    //% color="#34c2eb" weight=85 blockGap=8
+    //% group="PANTALLAS" color="#34c2eb" weight=85 blockGap=8
     export function oledBorrar(): void {
         // TODO: lógica real pendiente
     }

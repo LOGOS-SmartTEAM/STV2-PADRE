@@ -1,4 +1,4 @@
-namespace sabana_motores {
+namespace bloques {
     export enum SabanaColorMotor {
         //% block="🔴"
         Rojo = 0,
@@ -27,7 +27,7 @@ namespace sabana_motores {
     //% block="Motor %color %movimiento en el puerto I2C || Velocidad %velocidad"
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
     //% expandableArgumentMode="toggle"
-    //% color="#34c2eb" weight=100 blockGap=8
+    //% group="MOTORES" color="#34c2eb" weight=100 blockGap=8
     export function motorMulticolor(
         color: SabanaColorMotor,
         movimiento: SabanaMovimientoMotorUnico,

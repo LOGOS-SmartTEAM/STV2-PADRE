@@ -1,4 +1,4 @@
-namespace sabana_pantallas {
+namespace bloques {
     export enum SabanaLcdFila {
         //% block="0"
         F0 = 0,
@@ -49,7 +49,7 @@ namespace sabana_pantallas {
     //% blockId=sabana_lcd_escribir
     //% block="LCD Escribir %texto en la fila %fila columna %columna en el puerto I2C"
     //% texto.shadow=text texto.defl="abc"
-    //% color="#34c2eb" weight=100 blockGap=8
+    //% group="PANTALLAS" color="#34c2eb" weight=100 blockGap=8
     export function lcdEscribir(texto: string, fila: SabanaLcdFila, columna: SabanaColumna16): void {
         // TODO: lógica real pendiente
     }
@@ -59,7 +59,7 @@ namespace sabana_pantallas {
      */
     //% blockId=sabana_lcd_borrar
     //% block="LCD borrar textos en el puerto I2C"
-    //% color="#34c2eb" weight=95 blockGap=8
+    //% group="PANTALLAS" color="#34c2eb" weight=95 blockGap=8
     export function lcdBorrar(): void {
         // TODO: lógica real pendiente
     }

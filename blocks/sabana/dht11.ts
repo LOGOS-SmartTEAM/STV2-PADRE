@@ -1,4 +1,4 @@
-namespace sabana_sensores {
+namespace bloques {
     export enum SabanaDatoDHT11 {
         //% block="Humedad"
         Humedad = 0,
@@ -11,7 +11,7 @@ namespace sabana_sensores {
      */
     //% blockId=sabana_dht11
     //% block="%dato en el puerto %puerto"
-    //% color="#fcbb2b" weight=90 blockGap=8
+    //% group="SENSORES" color="#fcbb2b" weight=90 blockGap=8
     export function dht11(dato: SabanaDatoDHT11, puerto: SabanaPuerto): number {
         return 0
     }

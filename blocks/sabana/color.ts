@@ -1,4 +1,4 @@
-namespace sabana_sensores {
+namespace bloques {
     export enum SabanaColorCanal {
         //% block="Rojo"
         Rojo = 0,
@@ -13,7 +13,7 @@ namespace sabana_sensores {
      */
     //% blockId=sabana_color
     //% block="Intensidad de color %canal en el pin I2C"
-    //% color="#34c2eb" weight=85 blockGap=8
+    //% group="SENSORES" color="#34c2eb" weight=85 blockGap=8
     export function colorSensor(canal: SabanaColorCanal): number {
         return 0
     }
