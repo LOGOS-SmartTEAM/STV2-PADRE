@@ -1,4 +1,4 @@
-namespace bloques {
+﻿namespace bloques {
     export enum SabanaLcdFila {
         //% block="0"
         F0 = 0,
@@ -47,9 +47,9 @@ namespace bloques {
      * STV2-12 — Escribe texto en el LCD (I2C), fila 0-2, columna 0-15.
      */
     //% blockId=sabana_lcd_escribir
-    //% block="LCD Escribir %texto en la fila %fila columna %columna en el puerto I2C"
+    //% block="LCD Escribir │ %texto en la fila %fila columna %columna en el puerto I2C"
     //% texto.shadow=text texto.defl="abc"
-    //% group="PANTALLAS" color="#34c2eb" weight=100 blockGap=8
+    //% group="PANTALLAS" color="#35BFE9" weight=100 blockGap=8
     export function lcdEscribir(texto: string, fila: SabanaLcdFila, columna: SabanaColumna16): void {
         // TODO: lógica real pendiente
     }
@@ -58,8 +58,8 @@ namespace bloques {
      * STV2-13 — Borra todos los textos del LCD (I2C).
      */
     //% blockId=sabana_lcd_borrar
-    //% block="LCD borrar textos en el puerto I2C"
-    //% group="PANTALLAS" color="#34c2eb" weight=95 blockGap=8
+    //% block="LCD borrar │ textos en el puerto I2C"
+    //% group="PANTALLAS" color="#35BFE9" weight=95 blockGap=8
     export function lcdBorrar(): void {
         // TODO: lógica real pendiente
     }

@@ -1,4 +1,4 @@
-# BLOQUES SABANA
+﻿# BLOQUES SABANA
 
 Extensión de MakeCode para micro:bit creada para **validar con el equipo**
 los textos, colores y formas de cada bloque, antes de programar la lógica
@@ -13,13 +13,13 @@ aparecen las subcategorías (groups) con sus bloques.
 
 | Subcategoría | Color de bloques |
 |--------------|------------------|
-| SENSORES     | `#fcbb2b` (GPIO) / `#34c2eb` (I2C) |
-| SALIDAS      | `#fcbb2b` |
-| MOVIMIENTO   | `#34c2eb` |
-| MOTORES      | `#34c2eb` (I2C) / `#fcbb2b` (Servo, Hélice GPIO) |
-| PANTALLAS    | `#34c2eb` |
-| VARIABLES    | `#FF6680` |
-| ESPECIAL     | `#9C27B0` |
+| SENSORES     | `#FFB800` (GPIO) / `#35BFE9` (I2C) |
+| SALIDAS      | `#FFB800` |
+| MOVIMIENTO   | `#35BFE9` |
+| MOTORES      | `#35BFE9` (I2C) / `#FFB800` (Servo, Hélice GPIO) |
+| PANTALLAS    | `#35BFE9` |
+| VARIABLES    | `#796EB0` |
+| ESPECIAL     | `#EF506D` |
 
 Ver la tabla de bloques (`BLOQUE_ID`) en el archivo de especificación del
 equipo para el detalle de cada uno.
