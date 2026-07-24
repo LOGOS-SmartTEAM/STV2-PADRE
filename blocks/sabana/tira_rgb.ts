@@ -8,6 +8,7 @@ namespace bloques {
     //% led1.shadow="colorNumberPicker" led2.shadow="colorNumberPicker"
     //% led3.shadow="colorNumberPicker" led4.shadow="colorNumberPicker"
     //% led5.shadow="colorNumberPicker" led6.shadow="colorNumberPicker"
+    //% inlineInputMode=inline
     //% group="SALIDAS" color="#fcbb2b" weight=100 blockGap=8
     export function tiraRgb(
         led1: number, led2: number, led3: number,

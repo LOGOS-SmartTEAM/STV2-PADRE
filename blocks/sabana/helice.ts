@@ -6,7 +6,7 @@ namespace bloques {
      */
     //% blockId=sabana_helice
     //% block="Hélice %sentido en el puerto %puerto"
-    //% group="MOTORES" color="#34c2eb" weight=75 blockGap=8
+    //% group="MOTORES" color="#fcbb2b" weight=75 blockGap=8
     export function helice(sentido: SabanaMovimientoMotorUnico, puerto: SabanaPuerto): void {
         // TODO: lógica real pendiente
     }
