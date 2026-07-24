@@ -22,7 +22,7 @@
      * STV2-11 — Ajusta la tira RGB con valores independientes de R, G y B (0-255).
      */
     //% blockId=sabana_tira_rgb_rgb
-    //% block="Tira RGB ajustada │ a R %r G %g B %b"
+    //% block="Tira RGB │ ajustada a R %r G %g B %b"
     //% r.min=0 r.max=255 r.defl=255
     //% g.min=0 g.max=255 g.defl=255
     //% b.min=0 b.max=255 b.defl=255
