@@ -7,14 +7,16 @@ namespace bloques {
     }
 
     /**
-     * Bloque booleano combinado del Ultrasonido (hexágono, para usar
-     * directo en un "si... entonces"). Solo validación visual — no hay
-     * lógica real todavía.
+     * Bloque booleano combinado del Ultrasonido (hexágono). El bloque
+     * redondo "Ultrasonido │ en pin I2C" (blockId sabana_ultrasonido, con
+     * su propio color celeste) queda encajado por defecto dentro del
+     * hexágono, como shadow block.
      */
     //% blockId=sabana_ultrasonido_logico
-    //% block="Ultrasonido │ en pin I2C detecta objeto %valor"
+    //% block="%medida detecta objeto %valor"
+    //% medida.shadow=sabana_ultrasonido
     //% group="SENSORES" color="#006970" weight=99 blockGap=8
-    export function ultrasonidoLogico(valor: SabanaVerdaderoFalso): boolean {
+    export function ultrasonidoLogico(medida: number, valor: SabanaVerdaderoFalso): boolean {
         // TODO: lógica real pendiente
         return true
     }
