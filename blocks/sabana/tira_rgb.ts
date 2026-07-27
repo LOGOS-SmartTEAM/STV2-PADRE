@@ -1,10 +1,10 @@
-﻿namespace bloques {
+namespace bloques {
     /**
      * STV2-9 — Tira RGB de 6 LEDs en un puerto GPIO. Cada LED se elige con un
      * selector de color (paleta). Bloque solo de validación visual.
      */
     //% blockId=sabana_tira_rgb
-    //% block="Tira RGB │ %led1 %led2 %led3 %led4 %led5 %led6 en el puerto %puerto"
+    //% block="Tira RGB │ %led1 %led2 %led3 %led4 %led5 %led6 en pin %puerto"
     //% led1.shadow="colorNumberPicker" led2.shadow="colorNumberPicker"
     //% led3.shadow="colorNumberPicker" led4.shadow="colorNumberPicker"
     //% led5.shadow="colorNumberPicker" led6.shadow="colorNumberPicker"

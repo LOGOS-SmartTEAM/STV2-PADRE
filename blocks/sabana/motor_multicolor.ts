@@ -1,4 +1,4 @@
-﻿namespace bloques {
+namespace bloques {
     export enum SabanaColorMotor {
         //% block="🔴"
         Rojo = 0,
@@ -11,9 +11,9 @@
     }
 
     export enum SabanaMovimientoMotorUnico {
-        //% block="Girar a la Derecha"
+        //% block="Rotar a la derecha"
         Derecha = 0,
-        //% block="Girar a la Izquierda"
+        //% block="rotar a la izquierda"
         Izquierda = 1,
         //% block="Frenar"
         Frenar = 2,
@@ -24,7 +24,7 @@
      * conectado por I2C. El botón "+" agrega el parámetro opcional de velocidad.
      */
     //% blockId=sabana_motor_multicolor
-    //% block="Motor │ %color %movimiento en el puerto I2C || Velocidad %velocidad"
+    //% block="Motor │ %color %movimiento en puerto I2C || Velocidad %velocidad"
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
     //% expandableArgumentMode="toggle"
     //% group="MOTORES" color="#35BFE9" weight=100 blockGap=8
