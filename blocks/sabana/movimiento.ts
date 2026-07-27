@@ -20,9 +20,9 @@
     }
 
     export enum SabanaDireccionGiro {
-        //% block="Girar a la Izquierda"
+        //% block="Girar a la izquierda"
         Izquierda = 0,
-        //% block="Girar a la Derecha"
+        //% block="Girar a la derecha"
         Derecha = 1,
     }
 

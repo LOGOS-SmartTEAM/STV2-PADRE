@@ -47,7 +47,7 @@ namespace bloques {
      * STV2-12 — Escribe texto en el LCD (I2C), fila 0-2, columna 0-15.
      */
     //% blockId=sabana_lcd_escribir
-    //% block="LCD │ Escribir %texto en fila %fila en columna %columna en puerto I2C"
+    //% block="LCD │ Escribir %texto en fila %fila en columna %columna en pin I2C"
     //% texto.shadow=text texto.defl="abc"
     //% group="PANTALLAS" color="#35BFE9" weight=100 blockGap=8
     export function lcdEscribir(texto: string, fila: SabanaLcdFila, columna: SabanaColumna16): void {
@@ -58,7 +58,7 @@ namespace bloques {
      * STV2-13 — Borra todos los textos del LCD (I2C).
      */
     //% blockId=sabana_lcd_borrar
-    //% block="LCD │ borrar textos en puerto I2C"
+    //% block="LCD │ borrar textos en pin I2C"
     //% group="PANTALLAS" color="#35BFE9" weight=95 blockGap=8
     export function lcdBorrar(): void {
         // TODO: lógica real pendiente

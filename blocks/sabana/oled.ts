@@ -15,7 +15,7 @@ namespace bloques {
      * Reutiliza el enum SabanaColumna16 definido en lcd.ts.
      */
     //% blockId=sabana_oled_escribir
-    //% block="OLED │ Escribir %texto en fila %fila en columna %columna en puerto I2C"
+    //% block="OLED │ Escribir %texto en fila %fila en columna %columna en pin I2C"
     //% texto.shadow=text texto.defl="abc"
     //% group="PANTALLAS" color="#35BFE9" weight=90 blockGap=8
     export function oledEscribir(texto: string, fila: SabanaOledFila, columna: SabanaColumna16): void {
@@ -26,7 +26,7 @@ namespace bloques {
      * STV2-15 — Borra todos los textos del OLED (I2C).
      */
     //% blockId=sabana_oled_borrar
-    //% block="OLED │ borrar textos en puerto I2C"
+    //% block="OLED │ borrar textos en pin I2C"
     //% group="PANTALLAS" color="#35BFE9" weight=85 blockGap=8
     export function oledBorrar(): void {
         // TODO: lógica real pendiente

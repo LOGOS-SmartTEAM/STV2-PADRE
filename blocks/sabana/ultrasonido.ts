@@ -3,7 +3,7 @@ namespace bloques {
      * STV2-1 — Ultrasonido conectado por I2C. Bloque solo de validación visual.
      */
     //% blockId=sabana_ultrasonido
-    //% block="Ultrasonido │ en puerto I2C"
+    //% block="Ultrasonido │ en pin I2C"
     //% group="SENSORES" color="#35BFE9" weight=100 blockGap=8
     export function ultrasonido(): number {
         return 0

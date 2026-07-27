@@ -24,7 +24,7 @@ namespace bloques {
      * conectado por I2C. El botón "+" agrega el parámetro opcional de velocidad.
      */
     //% blockId=sabana_motor_multicolor
-    //% block="Motor │ %color %movimiento en puerto I2C || Velocidad %velocidad"
+    //% block="Motor │ %color %movimiento en pin I2C || Velocidad %velocidad"
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
     //% expandableArgumentMode="toggle"
     //% group="MOTORES" color="#35BFE9" weight=100 blockGap=8
