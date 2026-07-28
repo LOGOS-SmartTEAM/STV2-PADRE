@@ -50,7 +50,7 @@ namespace bloques {
     //% block="LCD │ Escribir %texto en fila %fila en columna %columna en pin I2C"
     //% texto.shadow=text texto.defl="abc"
     //% group="PANTALLAS" color="#35BFE9" weight=100 blockGap=8
-    export function lcdEscribir(texto: string, fila: SabanaLcdFila, columna: SabanaColumna16): void {
+    export function lcdEscribir(texto: string | number, fila: SabanaLcdFila, columna: SabanaColumna16): void {
         // TODO: lógica real pendiente
     }
 

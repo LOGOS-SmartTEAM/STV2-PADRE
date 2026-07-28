@@ -18,7 +18,7 @@ namespace bloques {
     //% block="OLED │ Escribir %texto en fila %fila en columna %columna en pin I2C"
     //% texto.shadow=text texto.defl="abc"
     //% group="PANTALLAS" color="#35BFE9" weight=90 blockGap=8
-    export function oledEscribir(texto: string, fila: SabanaOledFila, columna: SabanaColumna16): void {
+    export function oledEscribir(texto: string | number, fila: SabanaOledFila, columna: SabanaColumna16): void {
         // TODO: lógica real pendiente
     }
 
