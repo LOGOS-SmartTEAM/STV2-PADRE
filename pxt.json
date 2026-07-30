@@ -9,6 +9,7 @@
     "files": [
         "main.ts",
         "blocks/categorias/bloques.ts",
+        "blocks/sabana/_util.ts",
         "blocks/sabana/puertos.ts",
         "blocks/sabana/ultrasonido.ts",
         "blocks/sabana/ultrasonido_logico.ts",
