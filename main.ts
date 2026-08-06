@@ -6,7 +6,7 @@
  * cada bloque es mínimo/"dummy" y no controla hardware real todavía.
  *
  * Estructura:
- *   - blocks/categorias/bloques.ts → categoría padre "BLOQUES" + groups (subcategorías)
+ *   - blocks/categorias/bloques.ts → categoría padre "PADRE" + groups (subcategorías)
  *   - blocks/sabana/               → un archivo .ts por componente/bloque (ver tabla STV2)
  *
  * Patrón igual que SmartTEAM5 (EXT5): un solo namespace con groups internos.

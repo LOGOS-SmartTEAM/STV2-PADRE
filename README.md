@@ -6,8 +6,8 @@ real. Ningún bloque controla hardware todavía.
 
 ## Cómo se ve en MakeCode
 
-Una sola categoría padre **BLOQUES** (igual que SmartTEAM5). Al hacer clic,
-aparecen las subcategorías (groups) con sus bloques.
+Una sola categoría padre **PADRE** (icono de cohete, igual que SmartTEAM5).
+Al hacer clic, aparecen las subcategorías (groups) con sus bloques.
 
 ## Subcategorías
 
