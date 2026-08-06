@@ -6,13 +6,24 @@ namespace bloques {
         Temperatura = 1,
     }
 
+    const DHT11_I2C_ADDR = 0x27
+
     /**
-     * STV2-3 — DHT11 (humedad/temperatura) en un puerto GPIO.
+     * STV2-3 — DHT11 (humedad/temperatura) por I2C (dirección 0x27).
+     * Rangos del sensor: Humedad 20% a 90% RH · Temperatura 0°C a 50°C
+     * (enteros, sin decimales).
      */
-    //% blockId=sabana_dht11
-    //% block="%dato │ en pin %puerto"
-    //% group="SENSORES" color="#FFB800" weight=90 blockGap=8
-    export function dht11(dato: SabanaDatoDHT11, puerto: SabanaPuerto): number {
-        return 0
+    //% blockId=dht11
+    //% block="%dato │ en pin I2C"
+    //% group="SENSORES" color="#35BFE9" weight=90 blockGap=8
+    export function dht11(dato: SabanaDatoDHT11): number {
+        let trigger = pins.createBuffer(1)
+        trigger[0] = 0xAC
+        pins.i2cWriteBuffer(DHT11_I2C_ADDR, trigger)
+        let buf = pins.i2cReadBuffer(DHT11_I2C_ADDR, 5)
+        if (dato == SabanaDatoDHT11.Humedad) {
+            return buf[2]
+        }
+        return buf[0]
     }
 }

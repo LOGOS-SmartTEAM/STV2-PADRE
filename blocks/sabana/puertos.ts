@@ -22,30 +22,32 @@ enum SabanaPuerto {
     P3 = 3,
 }
 
-/**
- * Convierte un puerto de la placa al DigitalPin correspondiente.
- * Usar para lectura/escritura digital (botón, LED, hélice).
- */
-function puertoToDigitalPin(puerto: SabanaPuerto): DigitalPin {
-    switch (puerto) {
-        case SabanaPuerto.P0: return DigitalPin.P0
-        case SabanaPuerto.P1: return DigitalPin.P1
-        case SabanaPuerto.P2: return DigitalPin.P2
-        case SabanaPuerto.P3: return DigitalPin.P8
-        default: return DigitalPin.P0
+namespace bloques {
+    /**
+     * Convierte un puerto de la placa al DigitalPin correspondiente.
+     * Usar para lectura/escritura digital (botón, LED, hélice).
+     */
+    export function puertoToDigitalPin(puerto: SabanaPuerto): DigitalPin {
+        switch (puerto) {
+            case SabanaPuerto.P0: return DigitalPin.P0
+            case SabanaPuerto.P1: return DigitalPin.P1
+            case SabanaPuerto.P2: return DigitalPin.P2
+            case SabanaPuerto.P3: return DigitalPin.P8
+        }
+        return DigitalPin.P0
     }
-}
 
-/**
- * Convierte un puerto de la placa al AnalogPin correspondiente.
- * Usar para lectura analógica (potenciómetro, luz, suelo) y para servo.
- */
-function puertoToAnalogPin(puerto: SabanaPuerto): AnalogPin {
-    switch (puerto) {
-        case SabanaPuerto.P0: return AnalogPin.P0
-        case SabanaPuerto.P1: return AnalogPin.P1
-        case SabanaPuerto.P2: return AnalogPin.P2
-        case SabanaPuerto.P3: return AnalogPin.P8
-        default: return AnalogPin.P0
+    /**
+     * Convierte un puerto de la placa al AnalogPin correspondiente.
+     * Usar para lectura analógica (potenciómetro, luz, suelo) y para servo.
+     */
+    export function puertoToAnalogPin(puerto: SabanaPuerto): AnalogPin {
+        switch (puerto) {
+            case SabanaPuerto.P0: return AnalogPin.P0
+            case SabanaPuerto.P1: return AnalogPin.P1
+            case SabanaPuerto.P2: return AnalogPin.P2
+            case SabanaPuerto.P3: return AnalogPin.P8
+        }
+        return AnalogPin.P0
     }
 }

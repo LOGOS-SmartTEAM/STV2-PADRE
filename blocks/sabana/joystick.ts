@@ -1,48 +1,63 @@
 namespace bloques {
-
-    // Dirección I2C del módulo joystick. Verificado en ORIGINAL/block/joystick.ts
-    const JOYSTICK_I2C_ADDR = 0x61   // 97
-
-    /**
-     * Ejes del joystick.
-     *
-     * Los valores 1 y 2 NO son arbitrarios: son el desplazamiento del byte
-     * dentro del buffer I2C de 3 bytes que devuelve el módulo.
-     *   byte 0 -> descartado
-     *   byte 1 -> eje X
-     *   byte 2 -> eje Y
-     * Misma convención que ORIGINAL (enum rocket: X = 1, Y = 2).
-     * NO cambiar estos valores a 0 y 1.
-     */
     export enum SabanaEjeJoystick {
         //% block="Eje X"
-        EjeX = 1,
+        EjeX = 0,
         //% block="Eje Y"
-        EjeY = 2,
+        EjeY = 1,
+    }
+
+    const JOYSTICK_I2C_ADDR = 0x61
+
+    /**
+     * STV2-8 — Joystick conectado por I2C (dirección 0x61). COLOR GRIS:
+     * placeholder, el usuario tiene pendiente definir el diseño final.
+     */
+    //% blockId=joystick
+    //% block="Joystick │ %eje en pin I2C"
+    //% group="SENSORES" color="#9E9E9E" weight=65 blockGap=8
+    export function joystick(eje: SabanaEjeJoystick): number {
+        let buf = pins.i2cReadBuffer(JOYSTICK_I2C_ADDR, 3)
+        if (eje == SabanaEjeJoystick.EjeY) {
+            let value = buf.getNumber(NumberFormat.Int8BE, 2)
+            return -value
+        }
+        return buf.getNumber(NumberFormat.Int8BE, 1)
+    }
+
+    export enum SabanaDireccionJoystick {
+        //% block="Arriba"
+        Arriba = 0,
+        //% block="Abajo"
+        Abajo = 1,
+        //% block="Izquierda"
+        Izquierda = 2,
+        //% block="Derecha"
+        Derecha = 3,
     }
 
     /**
-     * STV2-8 — Joystick conectado por I2C.
-     *
-     * Devuelve un valor con signo (Int8, aprox. -128 a 127). En reposo el
-     * valor está cerca de 0.
-     *
-     * El eje Y se devuelve NEGADO porque el módulo está montado invertido.
-     * Sin esa negación, empujar el joystick hacia arriba daría negativo.
-     * Comportamiento heredado de ORIGINAL -> rockerGetValue().
-     *
-     * @param eje eje a leer, eg: SabanaEjeJoystick.EjeX
+     * STV2-8b — Detección de dirección del Joystick (bloque redondo, no
+     * hexágono: devuelve number 1/0 en vez de boolean). Traducción de
+     * version-alex/block/joystick.ts -> rockerDetect(). Umbral ±50 sobre
+     * el valor crudo (sin la inversión de signo del eje Y del reporter
+     * de arriba). COLOR GRIS: placeholder, mismo criterio que el resto
+     * del Joystick.
      */
-    //% blockId=sabana_joystick
-    //% block="Joystick │ %eje en pin I2C"
-    //% group="SENSORES" color="#35BFE9" weight=65 blockGap=8
-    export function joystick(eje: SabanaEjeJoystick): number {
-        const buf = pins.i2cReadBuffer(JOYSTICK_I2C_ADDR, 3)
-        const valor = buf.getNumber(NumberFormat.Int8BE, eje)
+    //% blockId=joystick_detecta
+    //% block="Joystick │ detecta dirección %direccion"
+    //% group="SENSORES" color="#9E9E9E" weight=64 blockGap=8
+    export function joystickDetecta(direccion: SabanaDireccionJoystick): number {
+        let buf = pins.i2cReadBuffer(JOYSTICK_I2C_ADDR, 3)
+        let ud = buf.getNumber(NumberFormat.Int8BE, 2)
+        let lr = buf.getNumber(NumberFormat.Int8BE, 1)
 
-        if (eje == SabanaEjeJoystick.EjeY) {
-            return -valor
+        let detectado = false
+        switch (direccion) {
+            case SabanaDireccionJoystick.Abajo: detectado = ud > 50; break
+            case SabanaDireccionJoystick.Arriba: detectado = ud < -50; break
+            case SabanaDireccionJoystick.Derecha: detectado = lr > 50; break
+            case SabanaDireccionJoystick.Izquierda: detectado = lr < -50; break
         }
-        return valor
+        return detectado ? 1 : 0
     }
 }

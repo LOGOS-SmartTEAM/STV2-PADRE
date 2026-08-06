@@ -11,7 +11,7 @@ namespace bloques {
      *
      * @param puerto puerto GPIO de la placa, eg: SabanaPuerto.P0
      */
-    //% blockId=sabana_luz
+    //% blockId=luz
     //% block="Sensor de Luz │ en pin %puerto"
     //% group="SENSORES" color="#FFB800" weight=70 blockGap=8
     export function luz(puerto: SabanaPuerto): number {

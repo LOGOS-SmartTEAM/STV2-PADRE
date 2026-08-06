@@ -1,6 +1,6 @@
 {
     "name": "bloques-sabana",
-    "version": "0.2.6",
+    "version": "0.3.0",
     "description": "BLOQUES SABANA — extensión de validación visual (textos, formas y colores) para MakeCode micro:bit",
     "license": "MIT",
     "dependencies": {
@@ -9,14 +9,12 @@
     "files": [
         "main.ts",
         "blocks/categorias/bloques.ts",
-        "blocks/sabana/_util.ts",
         "blocks/sabana/puertos.ts",
         "blocks/sabana/ultrasonido.ts",
         "blocks/sabana/ultrasonido_logico.ts",
         "blocks/sabana/boton.ts",
-        "blocks/sabana/boton_logico.ts",
         "blocks/sabana/dht11.ts",
-        "blocks/sabana/color.ts",
+        "blocks/sabana/sensor_color.ts",
         "blocks/sabana/suelo.ts",
         "blocks/sabana/potenciometro.ts",
         "blocks/sabana/luz.ts",
@@ -29,8 +27,9 @@
         "blocks/sabana/servo.ts",
         "blocks/sabana/helice.ts",
         "blocks/sabana/movimiento.ts",
-        "blocks/sabana/variables.ts",
         "blocks/sabana/cantidad.ts",
+        "blocks/sabana/seguidor_linea.ts",
+        "blocks/sabana/mensaje.ts",
         "main.blocks",
         "README.md"
     ],
