@@ -1,6 +1,6 @@
 {
     "name": "bloques-sabana",
-    "version": "3.0.1",
+    "version": "3.0.3",
     "description": "BLOQUES SABANA — extensión de validación visual (textos, formas y colores) para MakeCode micro:bit",
     "license": "MIT",
     "dependencies": {
@@ -29,7 +29,7 @@
         "blocks/sabana/movimiento.ts",
         "blocks/sabana/cantidad.ts",
         "blocks/sabana/seguidor_linea.ts",
-        "blocks/sabana/mensaje.ts",
+        "blocks/sabana/morse.ts",
         "main.blocks",
         "README.md",
         "_locales/en/bloques-sabana-strings.json",
