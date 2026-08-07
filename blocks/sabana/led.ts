@@ -16,4 +16,15 @@ namespace bloques {
         const pin = puertoToDigitalPin(puerto)
         pins.digitalWritePin(pin, estado == SabanaEstadoOnOff.ON ? 0 : 1)
     }
+
+    /**
+     * NUEVO — LED con intensidad variable (PWM) en un puerto GPIO, 0 a 1023.
+     */
+    //% blockId=led_intensidad
+    //% block="LED │ Intensidad %intensidad en pin %puerto"
+    //% intensidad.min=0 intensidad.max=1023 intensidad.defl=0
+    //% group="SALIDAS" color="#FFB800" weight=93 blockGap=8
+    export function ledIntensidad(intensidad: number, puerto: SabanaPuerto): void {
+        pins.analogWritePin(puertoToAnalogPin(puerto), intensidad)
+    }
 }
