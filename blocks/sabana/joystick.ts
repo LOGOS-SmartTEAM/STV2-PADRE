@@ -14,7 +14,7 @@ namespace bloques {
      */
     //% blockId=joystick
     //% block="Joystick │ %eje en pin I2C"
-    //% group="SENSORES" color="#9E9E9E" weight=65 blockGap=8
+    //% group="SENSORES" color="#9E9E9E" weight=89 blockGap=8
     export function joystick(eje: SabanaEjeJoystick): number {
         let buf = pins.i2cReadBuffer(JOYSTICK_I2C_ADDR, 3)
         if (eje == SabanaEjeJoystick.EjeY) {
@@ -45,7 +45,7 @@ namespace bloques {
      */
     //% blockId=joystick_detecta
     //% block="Joystick │ detecta dirección %direccion"
-    //% group="SENSORES" color="#9E9E9E" weight=64 blockGap=8
+    //% group="SENSORES" color="#9E9E9E" weight=88 blockGap=8
     export function joystickDetecta(direccion: SabanaDireccionJoystick): number {
         let buf = pins.i2cReadBuffer(JOYSTICK_I2C_ADDR, 3)
         let ud = buf.getNumber(NumberFormat.Int8BE, 2)

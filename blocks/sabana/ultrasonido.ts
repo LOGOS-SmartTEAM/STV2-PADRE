@@ -11,7 +11,7 @@ namespace bloques {
      */
     //% blockId=ultrasonido
     //% block="Ultrasonido │ en pin I2C"
-    //% group="SENSORES" color="#35BFE9" weight=100 blockGap=8
+    //% group="SENSORES" color="#35BFE9" weight=95 blockGap=8
     export function ultrasonido(): number {
         basic.pause(20)
 

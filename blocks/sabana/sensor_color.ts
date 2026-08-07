@@ -104,7 +104,7 @@ namespace bloques {
      */
     //% blockId=color_iniciar
     //% block="Iniciar sensor de color"
-    //% group="SENSORES" color="#9E9E9E" weight=85 blockGap=8
+    //% group="SENSORES" color="#9E9E9E" weight=92 blockGap=8
     export function colorIniciar(): void {
         if (!colorInicializado) {
             colorSetConfiguracion()
@@ -115,7 +115,7 @@ namespace bloques {
 
     //% blockId=color_detectado
     //% block="¿Detecta color %color?"
-    //% group="SENSORES" color="#9E9E9E" weight=84 blockGap=8
+    //% group="SENSORES" color="#9E9E9E" weight=91 blockGap=8
     export function colorDetectado(color: SabanaColorDetectado): boolean {
         colorActualizarRGB()
 
@@ -179,7 +179,7 @@ namespace bloques {
 
     //% blockId=color_brillo
     //% block="Leer brillo"
-    //% group="SENSORES" color="#9E9E9E" weight=83 blockGap=8
+    //% group="SENSORES" color="#9E9E9E" weight=90 blockGap=8
     export function colorBrillo(): number {
         colorActualizarRGB()
         let nw = Math.round(cacheW * 255 / 65535)

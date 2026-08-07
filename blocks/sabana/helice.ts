@@ -6,7 +6,7 @@ namespace bloques {
      */
     //% blockId=helice
     //% block="Hélice │ %estado en pin %puerto"
-    //% group="MOTORES" color="#FFB800" weight=75 blockGap=8
+    //% group="MOTORES" color="#FFB800" weight=99 blockGap=8
     export function helice(estado: SabanaEstadoOnOff, puerto: SabanaPuerto): void {
         const pin = puertoToDigitalPin(puerto)
         pins.digitalWritePin(pin, estado == SabanaEstadoOnOff.ON ? 1 : 0)

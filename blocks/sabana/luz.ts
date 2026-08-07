@@ -13,7 +13,7 @@ namespace bloques {
      */
     //% blockId=luz
     //% block="Sensor de Luz │ en pin %puerto"
-    //% group="SENSORES" color="#FFB800" weight=70 blockGap=8
+    //% group="SENSORES" color="#FFB800" weight=96 blockGap=8
     export function luz(puerto: SabanaPuerto): number {
         return pins.analogReadPin(puertoToAnalogPin(puerto))
     }

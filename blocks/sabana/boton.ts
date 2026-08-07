@@ -5,7 +5,7 @@ namespace bloques {
      */
     //% blockId=boton
     //% block="Botón │ en pin %puerto"
-    //% group="SENSORES" color="#FFB800" weight=95 blockGap=8
+    //% group="SENSORES" color="#FFB800" weight=100 blockGap=8
     export function boton(puerto: SabanaPuerto): number {
         const pin = puertoToDigitalPin(puerto)
         pins.setPull(pin, PinPullMode.PullUp)
@@ -37,7 +37,7 @@ namespace bloques {
     //% block="%medida %operador %valor"
     //% medida.shadow=boton
     //% valor.min=0 valor.max=1 valor.defl=1
-    //% group="SENSORES" color="#006970" weight=94 blockGap=8
+    //% group="SENSORES" color="#006970" weight=99 blockGap=8
     export function botonLogico(
         medida: number,
         operador: SabanaOperadorComparacion,

@@ -15,7 +15,7 @@ namespace bloques {
      */
     //% blockId=dht11
     //% block="%dato │ en pin I2C"
-    //% group="SENSORES" color="#35BFE9" weight=90 blockGap=8
+    //% group="SENSORES" color="#35BFE9" weight=93 blockGap=8
     export function dht11(dato: SabanaDatoDHT11): number {
         let trigger = pins.createBuffer(1)
         trigger[0] = 0xAC

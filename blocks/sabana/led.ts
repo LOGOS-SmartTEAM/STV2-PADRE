@@ -11,7 +11,7 @@ namespace bloques {
      */
     //% blockId=led
     //% block="LED │ Estado %estado en pin %puerto"
-    //% group="SALIDAS" color="#FFB800" weight=95 blockGap=8
+    //% group="SALIDAS" color="#FFB800" weight=100 blockGap=8
     export function led(estado: SabanaEstadoOnOff, puerto: SabanaPuerto): void {
         const pin = puertoToDigitalPin(puerto)
         pins.digitalWritePin(pin, estado == SabanaEstadoOnOff.ON ? 0 : 1)
@@ -23,7 +23,7 @@ namespace bloques {
     //% blockId=led_intensidad
     //% block="LED │ Intensidad %intensidad en pin %puerto"
     //% intensidad.min=0 intensidad.max=1023 intensidad.defl=0
-    //% group="SALIDAS" color="#FFB800" weight=93 blockGap=8
+    //% group="SALIDAS" color="#FFB800" weight=99 blockGap=8
     export function ledIntensidad(intensidad: number, puerto: SabanaPuerto): void {
         pins.analogWritePin(puertoToAnalogPin(puerto), intensidad)
     }

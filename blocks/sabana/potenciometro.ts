@@ -13,7 +13,7 @@ namespace bloques {
      */
     //% blockId=potenciometro
     //% block="Potenciómetro │ en pin %puerto"
-    //% group="SENSORES" color="#FFB800" weight=75 blockGap=8
+    //% group="SENSORES" color="#FFB800" weight=97 blockGap=8
     export function potenciometro(puerto: SabanaPuerto): number {
         return pins.analogReadPin(puertoToAnalogPin(puerto))
     }

@@ -18,7 +18,7 @@ namespace bloques {
      */
     //% blockId=seguidor_linea
     //% block="Seguidor de línea │ Leer sensor %sensor en pin I2C"
-    //% group="SENSORES" color="#9E9E9E" weight=60 blockGap=8
+    //% group="SENSORES" color="#9E9E9E" weight=87 blockGap=8
     export function seguidorLinea(sensor: SabanaSensor3Vias): number {
         let buf = pins.i2cReadBuffer(SEGUIDOR_LINEA_I2C_ADDR, 3)
         return buf[sensor]
@@ -26,7 +26,7 @@ namespace bloques {
 
     //% blockId=seguidor_linea_detecta
     //% block="Seguidor de línea │ Sensor %sensor detecta negro en pin I2C"
-    //% group="SENSORES" color="#9E9E9E" weight=59 blockGap=8
+    //% group="SENSORES" color="#9E9E9E" weight=86 blockGap=8
     export function seguidorLineaDetecta(sensor: SabanaSensor3Vias): boolean {
         let buf = pins.i2cReadBuffer(SEGUIDOR_LINEA_I2C_ADDR, 3)
         return buf[sensor] == 1
@@ -39,7 +39,7 @@ namespace bloques {
      */
     //% blockId=sensor_grises
     //% block="Sensor de grises │ Leer sensor %sensor en pin I2C"
-    //% group="SENSORES" color="#9E9E9E" weight=58 blockGap=8
+    //% group="SENSORES" color="#9E9E9E" weight=85 blockGap=8
     export function sensorGrises(sensor: SabanaSensor3Vias): number {
         let buf = pins.i2cReadBuffer(SENSOR_GRISES_I2C_ADDR, 3)
         return buf[sensor]
@@ -48,7 +48,7 @@ namespace bloques {
     //% blockId=sensor_grises_comparar
     //% block="Sensor de grises │ Sensor %sensor valor %operador %valor en pin I2C"
     //% valor.min=0 valor.max=255
-    //% group="SENSORES" color="#9E9E9E" weight=57 blockGap=8
+    //% group="SENSORES" color="#9E9E9E" weight=84 blockGap=8
     export function sensorGrisesComparar(
         sensor: SabanaSensor3Vias,
         operador: SabanaOperadorComparacion,

@@ -59,7 +59,7 @@ namespace bloques {
     //% block="Motor │ %color %movimiento en pin I2C || Velocidad %velocidad"
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
     //% expandableArgumentMode="toggle"
-    //% group="MOTORES" color="#35BFE9" weight=100 blockGap=8
+    //% group="MOTORES" color="#35BFE9" weight=98 blockGap=8
     export function motorMulticolor(
         color: SabanaColorMotor,
         movimiento: SabanaMovimientoMotorUnico,
