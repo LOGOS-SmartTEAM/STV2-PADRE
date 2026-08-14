@@ -13,7 +13,7 @@ namespace bloques {
     export enum SabanaMovimientoMotorUnico {
         //% block="Rotar a la derecha"
         Derecha = 0,
-        //% block="rotar a la izquierda"
+        //% block="Rotar a la izquierda"
         Izquierda = 1,
         //% block="Frenar"
         Frenar = 2,
