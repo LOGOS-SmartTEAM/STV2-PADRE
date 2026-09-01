@@ -19,18 +19,12 @@ namespace bloques {
     export enum SabanaColorDetectado {
         //% block="Rojo"
         Rojo,
-        //% block="Naranja"
-        Naranja,
         //% block="Amarillo"
         Amarillo,
         //% block="Verde"
         Verde,
-        //% block="Cian"
-        Cian,
         //% block="Azul"
         Azul,
-        //% block="Púrpura"
-        Purpura,
         //% block="Blanco"
         Blanco,
         //% block="Negro"
@@ -98,14 +92,12 @@ namespace bloques {
     }
 
     /**
-     * STV2-4 — Sensor de color por I2C (dirección 0x10). Traducción directa
-     * de version-alex/block/veml6040.ts. COLOR GRIS: placeholder, diseño
-     * visual (texto/id/color final) pendiente de definición.
+     * Inicialización del VEML6040, llamada automáticamente por
+     * colorActualizarRGB() en la primera lectura. No es un bloque: la
+     * inicialización se fusionó dentro de sensor_color_detecta (única
+     * decisión confirmada, ver mision.md).
      */
-    //% blockId=color_iniciar
-    //% block="Iniciar sensor de color"
-    //% group="SENSORES" color="#9E9E9E" weight=92 blockGap=8
-    export function colorIniciar(): void {
+    function colorIniciar(): void {
         if (!colorInicializado) {
             colorSetConfiguracion()
             basic.pause(320)
@@ -113,10 +105,18 @@ namespace bloques {
         }
     }
 
-    //% blockId=color_detectado
-    //% block="¿Detecta color %color?"
-    //% group="SENSORES" color="#9E9E9E" weight=91 blockGap=8
-    export function colorDetectado(color: SabanaColorDetectado): boolean {
+    /**
+     * Diseño visual final (confirmado): un solo bloque, inicializa el
+     * sensor automáticamente en la primera lectura. Naranja/Cian/Púrpura
+     * eliminados; sus rangos de tono (hue) se repartieron entre los
+     * vecinos que quedaron (Rojo absorbe el hueco de Púrpura, Verde/Azul
+     * absorben el hueco de Cian), conservando los límites originales de
+     * Rojo/Amarillo/Verde/Azul. Color celeste = convención de bloques I2C.
+     */
+    //% blockId=sensor_color_detecta
+    //% block="Sensor de Color │ Detecta %color en pin I2C"
+    //% group="SENSORES" color="#35BFE9" weight=92 blockGap=8
+    export function sensorColorDetecta(color: SabanaColorDetectado): boolean {
         colorActualizarRGB()
 
         let r = cacheR
@@ -160,19 +160,13 @@ namespace bloques {
         if (h < 0) h += 360
 
         if (color == SabanaColorDetectado.Rojo) {
-            return h < 6 || h >= 345
-        } else if (color == SabanaColorDetectado.Naranja) {
-            return h >= 6 && h < 35
+            return h < 35 || h >= 240
         } else if (color == SabanaColorDetectado.Amarillo) {
             return h >= 35 && h < 70
         } else if (color == SabanaColorDetectado.Verde) {
-            return h >= 70 && h < 180
-        } else if (color == SabanaColorDetectado.Cian) {
-            return h >= 180 && h < 205
+            return h >= 70 && h < 205
         } else if (color == SabanaColorDetectado.Azul) {
             return h >= 205 && h < 240
-        } else if (color == SabanaColorDetectado.Purpura) {
-            return h >= 240 && h < 345
         }
         return false
     }

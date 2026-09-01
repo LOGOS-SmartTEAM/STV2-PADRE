@@ -26,4 +26,25 @@ namespace bloques {
         if (cm > 200) cm = 200
         return cm
     }
+
+    /**
+     * Bloque booleano del Ultrasonido con umbral configurable (hexágono).
+     * El bloque redondo "Ultrasonido │ en pin I2C" (blockId ultrasonido)
+     * queda encajado por defecto dentro del hexágono, como shadow block.
+     *
+     * Lecturas por debajo de 3cm no son fiables en este sensor, así que
+     * se ajustan (clamp) a 3cm antes de comparar contra el umbral. Umbral
+     * configurable entre 3 y 25 cm.
+     */
+    //% blockId=ultrasonido_logico_hasta
+    //% block="%medida detecta hasta %distancia cm %valor"
+    //% medida.shadow=ultrasonido
+    //% distancia.min=3 distancia.max=25 distancia.defl=25
+    //% group="SENSORES" color="#006970" weight=93 blockGap=8
+    export function ultrasonidoLogicoHasta(medida: number, distancia: number, valor: SabanaVerdaderoFalso): boolean {
+        let medidaAjustada = medida
+        if (medidaAjustada < 3) medidaAjustada = 3
+        const detectado = medidaAjustada <= distancia
+        return valor == SabanaVerdaderoFalso.Verdadero ? detectado : !detectado
+    }
 }

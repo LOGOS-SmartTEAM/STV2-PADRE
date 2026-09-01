@@ -57,6 +57,28 @@ namespace bloques {
     }
 
     /**
+     * NUEVO — Acción por ramas del seguidor de línea I2C (misión: agregar
+     * bloque tipo IF con Derecha/Centro/Izquierda). Confirmado 2026-09-01:
+     * lectura única por ejecución (para usar dentro de "por siempre"), las
+     * 3 ramas son IFs independientes (pueden correr varias en la misma
+     * pasada), sin selector de pin (I2C fijo), mismo color/grupo que
+     * seguidor_de_linea. Reutiliza el mismo orden de bytes (Izq/Centro/Der).
+     */
+    //% blockId=seguidor_de_linea_ramas
+    //% block="Seguidor de líneas en pin I2C\nDerecha %handlerDerecha\nCentro %handlerCentro\nIzquierda %handlerIzquierda"
+    //% group="SENSORES" color="#35BFE9" weight=85.45 blockGap=8
+    export function seguidorDeLineaRamas(
+        handlerDerecha: () => void,
+        handlerCentro: () => void,
+        handlerIzquierda: () => void
+    ): void {
+        let buf = pins.i2cReadBuffer(SEGUIDOR_LINEA_I2C_ADDR, 5)
+        if (buf[SabanaSeguidorLineaLado.Derecha] == 1) handlerDerecha()
+        if (buf[SabanaSeguidorLineaLado.Centro] == 1) handlerCentro()
+        if (buf[SabanaSeguidorLineaLado.Izquierda] == 1) handlerIzquierda()
+    }
+
+    /**
      * NUEVO — Sensor de grises 3 vías por I2C (dirección 0x29), traducción
      * directa de version-alex/block/therrWayGray.ts. COLOR GRIS: placeholder,
      * diseño visual pendiente de definición.
