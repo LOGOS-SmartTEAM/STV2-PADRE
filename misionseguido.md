@@ -80,27 +80,101 @@ Reglas:
 
 **c) En su lugar, agregar** (mismo lugar del archivo, después de `seguidorDeLinea`):
 
-> **DIAGNÓSTICO REAL DEL BUG DE LAYOUT (verificado leyendo el parser de pxt,**
-> **`node_modules/pxt-core/built/pxtlib.js`, función `parseBlockDefinition`,**
-> **líneas ~18926-19068):**
-> - El carácter `|` (pipe ASCII) SÍ es un separador de fila real y documentado:
->   el parser lo tokeniza como `TokenKind.Pipe` y genera una parte `{kind:"break"}`.
->   Es el mecanismo estándar de pxt para forzar filas dentro de un mismo `block=`
->   (distinto de `||` doble, que separa la definición colapsada de la expandida).
-> - `inlineInputMode=external` fuerza que **cada parámetro individual** caiga en
->   su propia fila, sin importar los separadores que pongas. Esa es la causa real
->   del bug de la captura (cada `%accionX` y cada `%velX` quedó en su propia línea).
-> - La solución NO necesita shadow blocks ni codificar valores en un número: alcanza
->   con dejar la función simple de 6 parámetros y usar `inlineInputMode=inline`
->   (igual que ya hace `tira_rgb.ts` en este mismo repo para varios campos por fila),
->   combinado con `|` para marcar las 4 filas explícitamente.
-> - Se descartó la propuesta de shadow blocks con codificación `accion*1000+velocidad`:
->   agrega 3 bloques ocultos casi duplicados + funciones de codificar/decodificar para
->   resolver algo que se arregla cambiando un atributo, y crea un bug silencioso si un
->   alumno arrastra un número plano encima del shadow (se reinterpretaría como
->   `accion`+`velocidad` sin ningún aviso).
+> **DIAGNÓSTICO REAL DEL BUG DE LAYOUT (verificado contra el código fuente real de**
+> **pxt: `pxtblocks/loader.ts`, función `splitInputs`, versión v12.3.29 — la que usa**
+> **este repo — confirmado vía GitHub, no solo el parser local minificado):**
+>
+> ```ts
+> function splitInputs(def) {
+>     const res = []; let current = [];
+>     def.parts.forEach(part => {
+>         switch (part.kind) {
+>             case "break": newInput(); break;
+>             case "param": current.push(part); newInput(); break;
+>             case "image": case "label": current.push(part); break;
+>         }
+>     });
+>     newInput();
+>     return res;
+>     function newInput() {
+>         if (current.length) { res.push(current); current = []; }
+>     }
+> }
+> ```
+>
+> Esto prueba que **cada `%param` fuerza SIEMPRE su propia fila** (Blockly Input),
+> sin importar qué separadores (`\n`, `|`, nada) pongas entre medio. Es
+> estructuralmente imposible que dos parámetros sueltos (desplegable + número)
+> compartan un renglón. `inlineInputMode` es una palanca binaria por bloque:
+> `external` apila TODAS las filas verticalmente, `inline` las junta TODAS en una
+> sola línea horizontal — no hay término medio. Por eso:
+> - La primera versión (6 parámetros sueltos + `external`) dio 6 filas (una por
+>   parámetro): demasiado partido.
+> - Cambiar a `inline` (intento fallido de esta sesión) juntó TODO en una sola
+>   fila corrida hacia la derecha: la corrección estaba mal.
+> - **La única forma real de que 2 parámetros (desplegable+velocidad) compartan
+>   un renglón es que sean UN SOLO parámetro**: un *shadow block* que empaqueta
+>   ambos valores en un solo número, con `inlineInputMode=inline` puesto en el
+>   shadow (para que sus 2 sub-campos queden juntos) y el bloque principal con
+>   `inlineInputMode=external` (para que cada shadow —cada renglón— caiga en su
+>   propia fila). Es el mismo patrón que ya usa este repo en `tira_rgb.ts` y que
+>   usa MakeCode oficialmente en `color.rgb()` (pxt-common-packages) para
+>   empaquetar red/green/blue en un solo número.
+> - Se usa bit-packing (`accion << 8 | velocidad`) en vez de `accion*1000+velocidad`
+>   por prolijidad y para ser consistente con el estilo de bit-shifting que ya usa
+>   `tira_rgb.ts` en este mismo archivo del repo.
 
 ```ts
+    /**
+     * Empaqueta acción (bits altos) + velocidad 0-100 (bits bajos) en un
+     * solo número. Blockly no permite que dos parámetros sueltos compartan
+     * una fila (cada %param fuerza su propia fila — confirmado en
+     * pxt/pxtblocks/loader.ts, función splitInputs); agrupar accion+
+     * velocidad en un shadow con inlineInputMode=inline es la forma
+     * estándar de MakeCode de tener "desplegable + campo" en un renglón
+     * (mismo patrón que tira_rgb.ts usa para empaquetar RGB en un color).
+     */
+    function seguidorAccionCodificar(accion: SabanaSeguidorAccion, velocidad: number): number {
+        let v = Math.round(velocidad)
+        if (v < 0) v = 0
+        if (v > 100) v = 100
+        return (accion << 8) | v
+    }
+
+    //% blockId=seguidor_accion_derecha
+    //% block="$accion Velocidad $velocidad"
+    //% accion.defl=SabanaSeguidorAccion.GirarIzquierda
+    //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
+    //% inlineInputMode=inline blockHidden=1
+    export function seguidorAccionDerecha(accion: SabanaSeguidorAccion, velocidad: number): number {
+        return seguidorAccionCodificar(accion, velocidad)
+    }
+
+    //% blockId=seguidor_accion_centro
+    //% block="$accion Velocidad $velocidad"
+    //% accion.defl=SabanaSeguidorAccion.Avanzar
+    //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
+    //% inlineInputMode=inline blockHidden=1
+    export function seguidorAccionCentro(accion: SabanaSeguidorAccion, velocidad: number): number {
+        return seguidorAccionCodificar(accion, velocidad)
+    }
+
+    //% blockId=seguidor_accion_izquierda
+    //% block="$accion Velocidad $velocidad"
+    //% accion.defl=SabanaSeguidorAccion.GirarDerecha
+    //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
+    //% inlineInputMode=inline blockHidden=1
+    export function seguidorAccionIzquierda(accion: SabanaSeguidorAccion, velocidad: number): number {
+        return seguidorAccionCodificar(accion, velocidad)
+    }
+
+    /** Decodifica el número empaquetado del shadow y ejecuta el movimiento. */
+    function seguidorEjecutarCodificado(codigo: number): void {
+        const accion = (codigo >> 8) as SabanaSeguidorAccion
+        const velocidad = codigo & 0xFF
+        movimientoSimple(seguidorAccionToMovimiento(accion), velocidad)
+    }
+
     /**
      * Mapea la opción del desplegable del seguidor de línea al enum real
      * de movimiento del robot (movimiento.ts).
@@ -118,9 +192,10 @@ Reglas:
      * Bloque de acción del seguidor de línea (I2C 0x28). Reemplaza al
      * antiguo seguidor_de_linea_ramas (ramas con huecos).
      *
-     * Un renglón por sensor (Derecha / Centro / Izquierda), cada uno con
-     * desplegable de acción (Girar a la derecha / Girar a la izquierda /
-     * Avanzar) y velocidad propia (0-100, admite variable).
+     * Un renglón por sensor (Derecha / Centro / Izquierda). Cada renglón
+     * recibe un shadow block "desplegable + Velocidad" (arriba) como único
+     * parámetro; el bloque principal usa inlineInputMode=external para que
+     * cada renglón (cada shadow) caiga en su propia fila.
      *
      * Lectura única por ejecución (para usar dentro de "por siempre").
      * Un renglón se activa cuando SU sensor detecta BLANCO (buf == 0), es
@@ -133,39 +208,28 @@ Reglas:
      * de movimiento.ts (motor rojo 0x51 = derecho, verde 0x52 = izquierdo).
      */
     //% blockId=seguidor_de_linea_acciones
-    //% block="Seguidor de líneas │ en pin I2C|Derecha %accionDerecha Velocidad %velDerecha|Centro %accionCentro Velocidad %velCentro|Izquierda %accionIzquierda Velocidad %velIzquierda"
-    //% accionDerecha.defl=SabanaSeguidorAccion.GirarIzquierda
-    //% accionCentro.defl=SabanaSeguidorAccion.Avanzar
-    //% accionIzquierda.defl=SabanaSeguidorAccion.GirarDerecha
-    //% velDerecha.min=0 velDerecha.max=100 velDerecha.defl=50
-    //% velCentro.min=0 velCentro.max=100 velCentro.defl=50
-    //% velIzquierda.min=0 velIzquierda.max=100 velIzquierda.defl=50
-    //% inlineInputMode=inline
+    //% block="Seguidor de líneas │ en pin I2C|Derecha $derecha|Centro $centro|Izquierda $izquierda"
+    //% derecha.shadow=seguidor_accion_derecha
+    //% centro.shadow=seguidor_accion_centro
+    //% izquierda.shadow=seguidor_accion_izquierda
+    //% inlineInputMode=external
     //% group="SENSORES" color="#35BFE9" weight=85.45 blockGap=8
-    export function seguidorDeLineaAcciones(
-        accionDerecha: SabanaSeguidorAccion, velDerecha: number,
-        accionCentro: SabanaSeguidorAccion, velCentro: number,
-        accionIzquierda: SabanaSeguidorAccion, velIzquierda: number
-    ): void {
+    export function seguidorDeLineaAcciones(derecha: number, centro: number, izquierda: number): void {
         let buf = pins.i2cReadBuffer(SEGUIDOR_LINEA_I2C_ADDR, 5)
 
         // 0 = blanco = se salió de la línea negra → ejecutar acción del renglón
-        if (buf[SabanaSeguidorLineaLado.Derecha] == 0) {
-            movimientoSimple(seguidorAccionToMovimiento(accionDerecha), velDerecha)
-        }
-        if (buf[SabanaSeguidorLineaLado.Centro] == 0) {
-            movimientoSimple(seguidorAccionToMovimiento(accionCentro), velCentro)
-        }
-        if (buf[SabanaSeguidorLineaLado.Izquierda] == 0) {
-            movimientoSimple(seguidorAccionToMovimiento(accionIzquierda), velIzquierda)
-        }
+        if (buf[SabanaSeguidorLineaLado.Derecha] == 0) seguidorEjecutarCodificado(derecha)
+        if (buf[SabanaSeguidorLineaLado.Centro] == 0) seguidorEjecutarCodificado(centro)
+        if (buf[SabanaSeguidorLineaLado.Izquierda] == 0) seguidorEjecutarCodificado(izquierda)
     }
 ```
 
 **Detalles a respetar en el código anterior:**
-- El separador visual del título (`│`, U+2502, barra de caja) es solo texto decorativo, igual que el resto de los bloques. El `|` ASCII es distinto: es el separador de fila real de pxt (confirmado en el parser). No confundirlos.
-- `inlineInputMode=inline` (no `external`) es obligatorio para que el desplegable y el campo de velocidad queden en la misma fila; `external` fuerza una fila por cada parámetro suelto.
-- El alumno puede arrastrar una variable al campo numérico de velocidad (es un campo numérico común, sin shadow ni codificación).
+- El separador visual del título (`│`, U+2502, barra de caja) es solo texto decorativo. El `|` ASCII es distinto: es el separador de fila real de pxt (confirmado en `splitInputs`); los `|` extra entre renglones son inofensivos (no crean filas vacías: `newInput()` chequea que `current` no esté vacío).
+- Los tres shadow blocks son idénticos salvo `accion.defl`; existen por separado únicamente para que cada renglón arranque con un default distinto.
+- `blockHidden=1` evita que los shadows aparezcan sueltos en la paleta.
+- El alumno puede arrastrar una variable al campo numérico de velocidad dentro del shadow (funciona igual que cualquier campo numérico); por eso `seguidorAccionCodificar` recorta el valor a 0-100 antes de empaquetar (si no, un valor fuera de rango corrompería los bits de `accion`).
+- Si alguien arrastra un bloque numérico plano encima del shadow completo (tapándolo), el valor se interpreta como código empaquetado: mismo comportamiento aceptado que ya tiene `color.rgb()` de MakeCode o el picker de `tira_rgb.ts` en este repo; no es un caso de uso esperado, no hace falta contemplarlo.
 
 ### 3.2 `pxt.json`
 
@@ -183,9 +247,9 @@ Agregar una línea de prueba para que compile como proyecto:
 
 ```ts
 bloques.seguidorDeLineaAcciones(
-    bloques.SabanaSeguidorAccion.GirarIzquierda, 50,
-    bloques.SabanaSeguidorAccion.Avanzar, 50,
-    bloques.SabanaSeguidorAccion.GirarDerecha, 50
+    bloques.seguidorAccionDerecha(bloques.SabanaSeguidorAccion.GirarIzquierda, 50),
+    bloques.seguidorAccionCentro(bloques.SabanaSeguidorAccion.Avanzar, 50),
+    bloques.seguidorAccionIzquierda(bloques.SabanaSeguidorAccion.GirarDerecha, 50)
 )
 ```
 
@@ -208,6 +272,6 @@ bloques.seguidorDeLineaAcciones(
 2. En la categoría **PADRE → SENSORES** aparece un solo bloque de acción del seguidor de línea, de 4 renglones, celeste, con texto fijo `Derecha` / `Centro` / `Izquierda`.
 3. Cada renglón muestra: desplegable de 3 opciones + `Velocidad` + campo numérico (default 50). Defaults: Derecha = Girar a la izquierda, Centro = Avanzar, Izquierda = Girar a la derecha.
 4. Se puede arrastrar una variable al campo de velocidad.
-5. El bloque `seguidor_de_linea_ramas` ya no existe en la paleta.
+5. El bloque `seguidor_de_linea_ramas` ya no existe en la paleta, y los shadows `seguidor_accion_*` tampoco aparecen sueltos.
 6. Con el robot real, dentro de `por siempre`: al levantar el sensor derecho de la línea negra (ve blanco) el robot ejecuta la acción del renglón Derecha con esa velocidad; ídem centro e izquierda.
 7. Commit sugerido: `feat(seguidor_linea): bloque de acción por sensor con desplegable y velocidad (3.4.0)`.
