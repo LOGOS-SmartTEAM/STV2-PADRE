@@ -103,7 +103,7 @@ namespace bloques {
     //% block="$accion Velocidad $velocidad"
     //% accion.defl=SabanaSeguidorAccion.GirarIzquierda
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
-    //% inlineInputMode=inline blockHidden=1
+    //% inlineInputMode=inline blockHidden=1 color="#7FD4F0"
     export function seguidorAccionDerecha(accion: SabanaSeguidorAccion, velocidad: number): number {
         return seguidorAccionCodificar(accion, velocidad)
     }
@@ -112,7 +112,7 @@ namespace bloques {
     //% block="$accion Velocidad $velocidad"
     //% accion.defl=SabanaSeguidorAccion.Avanzar
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
-    //% inlineInputMode=inline blockHidden=1
+    //% inlineInputMode=inline blockHidden=1 color="#7FD4F0"
     export function seguidorAccionCentro(accion: SabanaSeguidorAccion, velocidad: number): number {
         return seguidorAccionCodificar(accion, velocidad)
     }
@@ -121,7 +121,7 @@ namespace bloques {
     //% block="$accion Velocidad $velocidad"
     //% accion.defl=SabanaSeguidorAccion.GirarDerecha
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
-    //% inlineInputMode=inline blockHidden=1
+    //% inlineInputMode=inline blockHidden=1 color="#7FD4F0"
     export function seguidorAccionIzquierda(accion: SabanaSeguidorAccion, velocidad: number): number {
         return seguidorAccionCodificar(accion, velocidad)
     }
