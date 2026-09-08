@@ -21,6 +21,20 @@ namespace bloques {
     }
 
     /**
+     * Acción de motores para cada renglón del bloque
+     * seguidor_de_linea_acciones. Solo 3 opciones (sin Retroceder ni Frenar).
+     * Se mapea a SabanaMovimiento en seguidorAccionToMovimiento().
+     */
+    export enum SabanaSeguidorAccion {
+        //% block="Girar a la derecha"
+        GirarDerecha = 0,
+        //% block="Girar a la izquierda"
+        GirarIzquierda = 1,
+        //% block="Avanzar"
+        Avanzar = 2,
+    }
+
+    /**
      * NUEVO — Seguidor de línea por I2C (dirección 0x28), traducción directa
      * de version-alex/block/lineFollower.ts. COLOR GRIS: placeholder,
      * diseño visual (texto/id/color final) pendiente de definición.
@@ -57,25 +71,63 @@ namespace bloques {
     }
 
     /**
-     * NUEVO — Acción por ramas del seguidor de línea I2C (misión: agregar
-     * bloque tipo IF con Derecha/Centro/Izquierda). Confirmado 2026-09-01:
-     * lectura única por ejecución (para usar dentro de "por siempre"), las
-     * 3 ramas son IFs independientes (pueden correr varias en la misma
-     * pasada), sin selector de pin (I2C fijo), mismo color/grupo que
-     * seguidor_de_linea. Reutiliza el mismo orden de bytes (Izq/Centro/Der).
+     * Mapea la opción del desplegable del seguidor de línea al enum real
+     * de movimiento del robot (movimiento.ts).
      */
-    //% blockId=seguidor_de_linea_ramas
-    //% block="Seguidor de líneas en pin I2C\nDerecha %handlerDerecha\nCentro %handlerCentro\nIzquierda %handlerIzquierda"
+    function seguidorAccionToMovimiento(accion: SabanaSeguidorAccion): SabanaMovimiento {
+        switch (accion) {
+            case SabanaSeguidorAccion.GirarDerecha: return SabanaMovimiento.GirarDerecha
+            case SabanaSeguidorAccion.GirarIzquierda: return SabanaMovimiento.GirarIzquierda
+            case SabanaSeguidorAccion.Avanzar: return SabanaMovimiento.Avanzar
+        }
+        return SabanaMovimiento.Frenar
+    }
+
+    /**
+     * Bloque de acción del seguidor de línea (I2C 0x28). Reemplaza al
+     * antiguo seguidor_de_linea_ramas (ramas con huecos).
+     *
+     * Un renglón por sensor (Derecha / Centro / Izquierda), cada uno con
+     * desplegable de acción (Girar a la derecha / Girar a la izquierda /
+     * Avanzar) y velocidad propia (0-100, admite variable).
+     *
+     * Lectura única por ejecución (para usar dentro de "por siempre"). Un
+     * renglón se activa cuando SU sensor detecta BLANCO (buf == 0), es
+     * decir, cuando ese lado se salió de la línea negra. Los 3 renglones
+     * son IFs independientes, evaluados en orden Derecha → Centro →
+     * Izquierda; la última orden enviada a los motores es la que queda.
+     * Si ningún sensor ve blanco, no se envía nada a los motores.
+     *
+     * La lógica de motores NO se duplica: se reutiliza movimientoSimple()
+     * de movimiento.ts (motor rojo 0x51 = derecho, verde 0x52 = izquierdo).
+     */
+    //% blockId=seguidor_de_linea_acciones
+    //% block="Seguidor de líneas │ en pin I2C\nDerecha %accionDerecha Velocidad %velDerecha\nCentro %accionCentro Velocidad %velCentro\nIzquierda %accionIzquierda Velocidad %velIzquierda"
+    //% accionDerecha.defl=SabanaSeguidorAccion.GirarIzquierda
+    //% accionCentro.defl=SabanaSeguidorAccion.Avanzar
+    //% accionIzquierda.defl=SabanaSeguidorAccion.GirarDerecha
+    //% velDerecha.min=0 velDerecha.max=100 velDerecha.defl=50
+    //% velCentro.min=0 velCentro.max=100 velCentro.defl=50
+    //% velIzquierda.min=0 velIzquierda.max=100 velIzquierda.defl=50
+    //% inlineInputMode=external
     //% group="SENSORES" color="#35BFE9" weight=85.45 blockGap=8
-    export function seguidorDeLineaRamas(
-        handlerDerecha: () => void,
-        handlerCentro: () => void,
-        handlerIzquierda: () => void
+    export function seguidorDeLineaAcciones(
+        accionDerecha: SabanaSeguidorAccion, velDerecha: number,
+        accionCentro: SabanaSeguidorAccion, velCentro: number,
+        accionIzquierda: SabanaSeguidorAccion, velIzquierda: number
     ): void {
         let buf = pins.i2cReadBuffer(SEGUIDOR_LINEA_I2C_ADDR, 5)
-        if (buf[SabanaSeguidorLineaLado.Derecha] == 1) handlerDerecha()
-        if (buf[SabanaSeguidorLineaLado.Centro] == 1) handlerCentro()
-        if (buf[SabanaSeguidorLineaLado.Izquierda] == 1) handlerIzquierda()
+
+        // 0 = blanco = se salió de la línea negra → ejecutar acción del renglón
+        if (buf[SabanaSeguidorLineaLado.Derecha] == 0) {
+            movimientoSimple(seguidorAccionToMovimiento(accionDerecha), velDerecha)
+        }
+        if (buf[SabanaSeguidorLineaLado.Centro] == 0) {
+            movimientoSimple(seguidorAccionToMovimiento(accionCentro), velCentro)
+        }
+        if (buf[SabanaSeguidorLineaLado.Izquierda] == 0) {
+            movimientoSimple(seguidorAccionToMovimiento(accionIzquierda), velIzquierda)
+        }
     }
 
     /**
