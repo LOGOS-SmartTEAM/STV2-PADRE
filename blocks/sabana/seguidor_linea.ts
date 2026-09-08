@@ -102,14 +102,14 @@ namespace bloques {
      * de movimiento.ts (motor rojo 0x51 = derecho, verde 0x52 = izquierdo).
      */
     //% blockId=seguidor_de_linea_acciones
-    //% block="Seguidor de líneas │ en pin I2C\nDerecha %accionDerecha Velocidad %velDerecha\nCentro %accionCentro Velocidad %velCentro\nIzquierda %accionIzquierda Velocidad %velIzquierda"
+    //% block="Seguidor de líneas │ en pin I2C|Derecha %accionDerecha Velocidad %velDerecha|Centro %accionCentro Velocidad %velCentro|Izquierda %accionIzquierda Velocidad %velIzquierda"
     //% accionDerecha.defl=SabanaSeguidorAccion.GirarIzquierda
     //% accionCentro.defl=SabanaSeguidorAccion.Avanzar
     //% accionIzquierda.defl=SabanaSeguidorAccion.GirarDerecha
     //% velDerecha.min=0 velDerecha.max=100 velDerecha.defl=50
     //% velCentro.min=0 velCentro.max=100 velCentro.defl=50
     //% velIzquierda.min=0 velIzquierda.max=100 velIzquierda.defl=50
-    //% inlineInputMode=external
+    //% inlineInputMode=inline
     //% group="SENSORES" color="#35BFE9" weight=85.45 blockGap=8
     export function seguidorDeLineaAcciones(
         accionDerecha: SabanaSeguidorAccion, velDerecha: number,

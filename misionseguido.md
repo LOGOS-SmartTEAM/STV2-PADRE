@@ -80,6 +80,26 @@ Reglas:
 
 **c) En su lugar, agregar** (mismo lugar del archivo, después de `seguidorDeLinea`):
 
+> **DIAGNÓSTICO REAL DEL BUG DE LAYOUT (verificado leyendo el parser de pxt,**
+> **`node_modules/pxt-core/built/pxtlib.js`, función `parseBlockDefinition`,**
+> **líneas ~18926-19068):**
+> - El carácter `|` (pipe ASCII) SÍ es un separador de fila real y documentado:
+>   el parser lo tokeniza como `TokenKind.Pipe` y genera una parte `{kind:"break"}`.
+>   Es el mecanismo estándar de pxt para forzar filas dentro de un mismo `block=`
+>   (distinto de `||` doble, que separa la definición colapsada de la expandida).
+> - `inlineInputMode=external` fuerza que **cada parámetro individual** caiga en
+>   su propia fila, sin importar los separadores que pongas. Esa es la causa real
+>   del bug de la captura (cada `%accionX` y cada `%velX` quedó en su propia línea).
+> - La solución NO necesita shadow blocks ni codificar valores en un número: alcanza
+>   con dejar la función simple de 6 parámetros y usar `inlineInputMode=inline`
+>   (igual que ya hace `tira_rgb.ts` en este mismo repo para varios campos por fila),
+>   combinado con `|` para marcar las 4 filas explícitamente.
+> - Se descartó la propuesta de shadow blocks con codificación `accion*1000+velocidad`:
+>   agrega 3 bloques ocultos casi duplicados + funciones de codificar/decodificar para
+>   resolver algo que se arregla cambiando un atributo, y crea un bug silencioso si un
+>   alumno arrastra un número plano encima del shadow (se reinterpretaría como
+>   `accion`+`velocidad` sin ningún aviso).
+
 ```ts
     /**
      * Mapea la opción del desplegable del seguidor de línea al enum real
@@ -113,14 +133,14 @@ Reglas:
      * de movimiento.ts (motor rojo 0x51 = derecho, verde 0x52 = izquierdo).
      */
     //% blockId=seguidor_de_linea_acciones
-    //% block="Seguidor de líneas │ en pin I2C\nDerecha %accionDerecha Velocidad %velDerecha\nCentro %accionCentro Velocidad %velCentro\nIzquierda %accionIzquierda Velocidad %velIzquierda"
+    //% block="Seguidor de líneas │ en pin I2C|Derecha %accionDerecha Velocidad %velDerecha|Centro %accionCentro Velocidad %velCentro|Izquierda %accionIzquierda Velocidad %velIzquierda"
     //% accionDerecha.defl=SabanaSeguidorAccion.GirarIzquierda
     //% accionCentro.defl=SabanaSeguidorAccion.Avanzar
     //% accionIzquierda.defl=SabanaSeguidorAccion.GirarDerecha
     //% velDerecha.min=0 velDerecha.max=100 velDerecha.defl=50
     //% velCentro.min=0 velCentro.max=100 velCentro.defl=50
     //% velIzquierda.min=0 velIzquierda.max=100 velIzquierda.defl=50
-    //% inlineInputMode=external
+    //% inlineInputMode=inline
     //% group="SENSORES" color="#35BFE9" weight=85.45 blockGap=8
     export function seguidorDeLineaAcciones(
         accionDerecha: SabanaSeguidorAccion, velDerecha: number,
@@ -142,9 +162,10 @@ Reglas:
     }
 ```
 
-> Si al compilar en MakeCode los saltos de línea (`\n`) no renderizan los 4 renglones,
-> alternativa: quitar los `\n` del `block=` y dejar solo `inlineInputMode=external`,
-> que fuerza un parámetro por fila. Probar primero con `\n` (ya lo usaba el bloque anterior).
+**Detalles a respetar en el código anterior:**
+- El separador visual del título (`│`, U+2502, barra de caja) es solo texto decorativo, igual que el resto de los bloques. El `|` ASCII es distinto: es el separador de fila real de pxt (confirmado en el parser). No confundirlos.
+- `inlineInputMode=inline` (no `external`) es obligatorio para que el desplegable y el campo de velocidad queden en la misma fila; `external` fuerza una fila por cada parámetro suelto.
+- El alumno puede arrastrar una variable al campo numérico de velocidad (es un campo numérico común, sin shadow ni codificación).
 
 ### 3.2 `pxt.json`
 
@@ -182,6 +203,7 @@ bloques.seguidorDeLineaAcciones(
 
 ## 5. Verificación
 
+0. **Importante — caché de MakeCode:** MakeCode guarda la extensión por versión. Después de subir el cambio, en el proyecto de prueba hay que **quitar la extensión y volver a agregarla** (o crear un proyecto nuevo) para que tome la 3.4.0. Si no, seguirá mostrando el bloque viejo y los defaults viejos.
 1. `pxt build` (o abrir el repo como extensión en MakeCode) sin errores de TypeScript.
 2. En la categoría **PADRE → SENSORES** aparece un solo bloque de acción del seguidor de línea, de 4 renglones, celeste, con texto fijo `Derecha` / `Centro` / `Izquierda`.
 3. Cada renglón muestra: desplegable de 3 opciones + `Velocidad` + campo numérico (default 50). Defaults: Derecha = Girar a la izquierda, Centro = Avanzar, Izquierda = Girar a la derecha.
