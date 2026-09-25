@@ -17,17 +17,17 @@ namespace bloques {
     const GAIN_B = 2.6
 
     export enum SabanaColorDetectado {
-        //% block="Rojo"
+        //% block="🔴 Rojo"
         Rojo,
-        //% block="Amarillo"
+        //% block="🟡 Amarillo"
         Amarillo,
-        //% block="Verde"
+        //% block="🟢 Verde"
         Verde,
-        //% block="Azul"
+        //% block="🔵 Azul"
         Azul,
-        //% block="Blanco"
+        //% block="⚪ Blanco"
         Blanco,
-        //% block="Negro"
+        //% block="⚫ Negro"
         Negro,
     }
 
