@@ -1,8 +1,8 @@
 namespace bloques {
     export enum SabanaRobitGiro {
-        //% block="⬅️ Izquierda"
+        //% block="↺ Izquierda"
         Izquierda = 9,
-        //% block="➡️ Derecha"
+        //% block="↻ Derecha"
         Derecha = 10,
     }
 
