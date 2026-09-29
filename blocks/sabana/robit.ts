@@ -1,4 +1,11 @@
 namespace bloques {
+    export enum SabanaSiNo {
+        //% block="Si"
+        Si = 0,
+        //% block="No"
+        No = 1,
+    }
+
     export enum SabanaRobitGiro {
         //% block="↺ Izquierda"
         Izquierda = 9,
@@ -20,7 +27,7 @@ namespace bloques {
      * Entre dos lecturas deben pasar más de 50 ms (pausa de 60 ms).
      */
     //% blockId=ultrasonido_rgb
-    //% block="Ultrasonido RGB │ distancia (cm)"
+    //% block="ROBIT │ Ultrasonido"
     //% group="SENSORES" color="#9C27B0" weight=101 blockGap=8
     export function ultrasonidoRgb(): number {
         let cmdBuff = pins.createBuffer(1)
@@ -40,19 +47,19 @@ namespace bloques {
 
     /**
      * Bloque booleano combinado del Ultrasonido RGB (hexágono). El bloque
-     * redondo "Ultrasonido RGB │ distancia (cm)" (blockId ultrasonido_rgb)
-     * queda encajado por defecto dentro del hexágono, como shadow block.
+     * redondo "ROBIT │ Ultrasonido" (blockId ultrasonido_rgb) queda
+     * encajado por defecto dentro del hexágono, como shadow block.
      *
      * Umbral de detección igual que PA-12: 3 a 25 cm (inclusive), sobre la
-     * lectura en cm.
+     * lectura en cm. "Si" = hay objeto, "No" = no hay objeto.
      */
     //% blockId=ultrasonido_rgb_logico
-    //% block="%medida detecta objeto %valor"
+    //% block="%medida detecta objeto: %valor"
     //% medida.shadow=ultrasonido_rgb
     //% group="SENSORES" color="#9C27B0" weight=100.5 blockGap=8
-    export function ultrasonidoRgbLogico(medida: number, valor: SabanaVerdaderoFalso): boolean {
+    export function ultrasonidoRgbLogico(medida: number, valor: SabanaSiNo): boolean {
         const detectado = medida >= 3 && medida <= 25
-        return valor == SabanaVerdaderoFalso.Verdadero ? detectado : !detectado
+        return valor == SabanaSiNo.Si ? detectado : !detectado
     }
 
     /**
@@ -64,7 +71,7 @@ namespace bloques {
      * (ambientLightSetColor, registro 0x0B).
      */
     //% blockId=robit_led_rgb
-    //% block="Robit LED RGB │ Color %color"
+    //% block="ROBIT luces RGB │ color %color"
     //% color.shadow="colorNumberPicker"
     //% group="SALIDAS" color="#9C27B0" weight=101 blockGap=8
     export function robitLedRgb(color: number): void {
@@ -96,7 +103,7 @@ namespace bloques {
      * para siempre porque el robot nunca termina).
      */
     //% blockId=robit_movimiento_cm
-    //% block="Robit %movimiento │ Velocidad %velocidad por %cm cm"
+    //% block="ROBIT %movimiento │ Velocidad %velocidad por %cm cm"
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
     //% cm.min=0 cm.max=50 cm.defl=10
     //% group="MOVIMIENTO" color="#9C27B0" weight=101 blockGap=8
@@ -141,7 +148,7 @@ namespace bloques {
      * lectura del estado en 0x91 hasta que valga 0.
      */
     //% blockId=robit_girar
-    //% block="Robit │ Girar a la %direccion"
+    //% block="ROBIT │ Girar a la %direccion"
     //% group="MOVIMIENTO" color="#9C27B0" weight=100.5 blockGap=8
     export function robitGirar(direccion: SabanaRobitGiro): void {
         const velocidad = 50
@@ -167,21 +174,6 @@ namespace bloques {
         pins.i2cWriteBuffer(ROBIT_I2C_ADDR, cmdBuff)
 
         robitEsperarFin()
-    }
-
-    /**
-     * Frena el chasis Robit (I2C 0x09).
-     *
-     * Protocolo igual a logos-smart (motionStop): orden 0 en 0x8C.
-     */
-    //% blockId=robit_frenar
-    //% block="Robit │ Frenar"
-    //% group="MOVIMIENTO" color="#9C27B0" weight=100.25 blockGap=8
-    export function robitFrenar(): void {
-        let cmdBuff = pins.createBuffer(2)
-        cmdBuff.setNumber(NumberFormat.UInt8BE, 0, ROBIT_MOTORES_BASE + 0x00)
-        cmdBuff.setNumber(NumberFormat.UInt8BE, 1, 0)
-        pins.i2cWriteBuffer(ROBIT_I2C_ADDR, cmdBuff)
     }
 
     // Espera (bloqueante) hasta que el chasis informa estado 0 en 0x91.
