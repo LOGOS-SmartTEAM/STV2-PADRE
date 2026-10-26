@@ -1,11 +1,12 @@
 namespace bloques {
+    // STV2-2 — Botón conectado a un puerto GPIO (pull-up, activo en alto
+    // lógico: presionado=1, suelto=0).
     /**
-     * STV2-2 — Botón conectado a un puerto GPIO (pull-up, activo en alto
-     * lógico: presionado=1, suelto=0).
+     * Returns 1 if the button is pressed and 0 if it is not.
      */
     //% blockId=boton
-    //% block="Botón │ en pin %puerto"
-    //% group="SENSORES" color="#FFB800" weight=100 blockGap=8
+    //% block="Button │ on pin %puerto"
+    //% group="SENSORS" color="#FFB800" weight=100 blockGap=8
     export function boton(puerto: SabanaPuerto): number {
         const pin = puertoToDigitalPin(puerto)
         pins.setPull(pin, PinPullMode.PullUp)
@@ -27,17 +28,18 @@ namespace bloques {
         MayorIgual = 5,
     }
 
+    // Bloque booleano combinado del Botón (hexágono). El bloque redondo
+    // "Botón │ en pin %puerto" (blockId boton, con su propio color
+    // amarillo y su propio desplegable de pin P0-P3 adentro) queda
+    // encajado por defecto dentro del hexágono, como shadow block.
     /**
-     * Bloque booleano combinado del Botón (hexágono). El bloque redondo
-     * "Botón │ en pin %puerto" (blockId boton, con su propio color
-     * amarillo y su propio desplegable de pin P0-P3 adentro) queda
-     * encajado por defecto dentro del hexágono, como shadow block.
+     * Compares the button value with a number.
      */
     //% blockId=boton_logico
     //% block="%medida %operador %valor"
     //% medida.shadow=boton
     //% valor.min=0 valor.max=1 valor.defl=1
-    //% group="SENSORES" color="#006970" weight=99 blockGap=8
+    //% group="SENSORS" color="#006970" weight=99 blockGap=8
     export function botonLogico(
         medida: number,
         operador: SabanaOperadorComparacion,

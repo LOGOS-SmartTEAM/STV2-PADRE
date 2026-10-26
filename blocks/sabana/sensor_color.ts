@@ -17,17 +17,17 @@ namespace bloques {
     const GAIN_B = 2.6
 
     export enum SabanaColorDetectado {
-        //% block="🔴 Rojo"
+        //% block="🔴 Red"
         Rojo,
-        //% block="🟡 Amarillo"
+        //% block="🟡 Yellow"
         Amarillo,
-        //% block="🟢 Verde"
+        //% block="🟢 Green"
         Verde,
-        //% block="🔵 Azul"
+        //% block="🔵 Blue"
         Azul,
-        //% block="⚪ Blanco"
+        //% block="⚪ White"
         Blanco,
-        //% block="⚫ Negro"
+        //% block="⚫ Black"
         Negro,
     }
 
@@ -91,12 +91,10 @@ namespace bloques {
         return m
     }
 
-    /**
-     * Inicialización del VEML6040, llamada automáticamente por
-     * colorActualizarRGB() en la primera lectura. No es un bloque: la
-     * inicialización se fusionó dentro de sensor_color_detecta (única
-     * decisión confirmada, ver mision.md).
-     */
+    // Inicialización del VEML6040, llamada automáticamente por
+    // colorActualizarRGB() en la primera lectura. No es un bloque: la
+    // inicialización se fusionó dentro de sensor_color_detecta (única
+    // decisión confirmada, ver mision.md).
     function colorIniciar(): void {
         if (!colorInicializado) {
             colorSetConfiguracion()
@@ -105,17 +103,18 @@ namespace bloques {
         }
     }
 
+    // Diseño visual final (confirmado): un solo bloque, inicializa el
+    // sensor automáticamente en la primera lectura. Naranja/Cian/Púrpura
+    // eliminados; sus rangos de tono (hue) se repartieron entre los
+    // vecinos que quedaron (Rojo absorbe el hueco de Púrpura, Verde/Azul
+    // absorben el hueco de Cian), conservando los límites originales de
+    // Rojo/Amarillo/Verde/Azul. Color celeste = convención de bloques I2C.
     /**
-     * Diseño visual final (confirmado): un solo bloque, inicializa el
-     * sensor automáticamente en la primera lectura. Naranja/Cian/Púrpura
-     * eliminados; sus rangos de tono (hue) se repartieron entre los
-     * vecinos que quedaron (Rojo absorbe el hueco de Púrpura, Verde/Azul
-     * absorben el hueco de Cian), conservando los límites originales de
-     * Rojo/Amarillo/Verde/Azul. Color celeste = convención de bloques I2C.
+     * Detects whether the sensor sees the chosen color.
      */
     //% blockId=sensor_color_detecta
-    //% block="Sensor de Color │ Detecta %color en pin I2C"
-    //% group="SENSORES" color="#35BFE9" weight=92 blockGap=8
+    //% block="Color Sensor │ Detects %color on I2C pin"
+    //% group="SENSORS" color="#35BFE9" weight=92 blockGap=8
     export function sensorColorDetecta(color: SabanaColorDetectado): boolean {
         colorActualizarRGB()
 
@@ -170,10 +169,12 @@ namespace bloques {
         }
         return false
     }
-
+    /**
+     * Measures the brightness seen by the color sensor (0 to 255).
+     */
     //% blockId=color_brillo
-    //% block="Leer brillo"
-    //% group="SENSORES" color="#9E9E9E" weight=90 blockGap=8
+    //% block="Read brightness"
+    //% group="SENSORS" color="#9E9E9E" weight=90 blockGap=8
     export function colorBrillo(): number {
         colorActualizarRGB()
         let nw = Math.round(cacheW * 255 / 65535)

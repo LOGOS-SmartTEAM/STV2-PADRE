@@ -1,33 +1,31 @@
-/**
- * Bloques MORSE — grupo ESPECIAL.
- *
- * Captura un mensaje Morse a partir de pulsaciones de botón y lo traduce
- * a texto:
- *   - Duración de la pulsación: < 500ms = punto ("."), >= 500ms = línea ("_").
- *     No se escribe nada mientras el botón sigue apretado — se decide una
- *     sola vez, recién al soltar, para no dejar guardado ningún símbolo
- *     prematuro.
- *   - Fin de letra: 1000ms de silencio total sin pulsar nada.
- *   - Fin de palabra / traducción: se marca a mano con "Traducir mensaje",
- *     que reprocesa TODO el mensaje Morse acumulado y arma el texto
- *     traducido letra por letra, sin espacios entre ellas.
- *
- * IMPORTANTE: a diferencia del resto de la extensión, el botón de Morse
- * está fijo por diseño en el pin P0 (MORSE_PIN_BOTON1) — no es
- * configurable por puerto como el resto de los componentes. El vigía en
- * segundo plano lee ese pin directamente cada MORSE_INTERVALO_VIGIA_MS,
- * así que la duración de la pulsación se mide con precisión real, sin
- * depender de con qué frecuencia el programa del usuario llama a
- * "Guardar mensaje MORSE" (esa llamada ahora solo sirve para arrancar el
- * vigía la primera vez; el programa que la usa puede quedar exactamente
- * igual, envuelta en un "si Botón en pin P0 = 1 entonces" o no).
- *
- * "Mensaje MORSE" y "Mensaje TRADUCIDO" siempre arrancan con un espacio
- * (workaround: en el OLED real se pierde la primera escritura I2C tras
- * encenderlo, así que ese primer carácter descartable absorbe el golpe) y
- * devuelven como máximo los últimos MORSE_VENTANA_CHARS caracteres, para
- * que siempre entren en una fila de 16 columnas del OLED sin cortarse.
- */
+// Bloques MORSE — grupo ESPECIAL.
+//
+// Captura un mensaje Morse a partir de pulsaciones de botón y lo traduce
+// a texto:
+//   - Duración de la pulsación: < 500ms = punto ("."), >= 500ms = línea ("_").
+//     No se escribe nada mientras el botón sigue apretado — se decide una
+//     sola vez, recién al soltar, para no dejar guardado ningún símbolo
+//     prematuro.
+//   - Fin de letra: 1000ms de silencio total sin pulsar nada.
+//   - Fin de palabra / traducción: se marca a mano con "Traducir mensaje",
+//     que reprocesa TODO el mensaje Morse acumulado y arma el texto
+//     traducido letra por letra, sin espacios entre ellas.
+//
+// IMPORTANTE: a diferencia del resto de la extensión, el botón de Morse
+// está fijo por diseño en el pin P0 (MORSE_PIN_BOTON1) — no es
+// configurable por puerto como el resto de los componentes. El vigía en
+// segundo plano lee ese pin directamente cada MORSE_INTERVALO_VIGIA_MS,
+// así que la duración de la pulsación se mide con precisión real, sin
+// depender de con qué frecuencia el programa del usuario llama a
+// "Guardar mensaje MORSE" (esa llamada ahora solo sirve para arrancar el
+// vigía la primera vez; el programa que la usa puede quedar exactamente
+// igual, envuelta en un "si Botón en pin P0 = 1 entonces" o no).
+//
+// "Mensaje MORSE" y "Mensaje TRADUCIDO" siempre arrancan con un espacio
+// (workaround: en el OLED real se pierde la primera escritura I2C tras
+// encenderlo, así que ese primer carácter descartable absorbe el golpe) y
+// devuelven como máximo los últimos MORSE_VENTANA_CHARS caracteres, para
+// que siempre entren en una fila de 16 columnas del OLED sin cortarse.
 
 namespace bloques {
 
@@ -138,16 +136,17 @@ namespace bloques {
         }
     }
 
+    // Arranca (la primera vez que se llama) el vigía que lee el pin del
+    // botón de Morse (P0) directamente y mide la duración real de cada
+    // pulsación. Se puede seguir llamando en cada vuelta del loop, dentro
+    // de un "si Botón en pin P0 = 1 entonces" o no — no hace falta
+    // cambiar el programa existente, esta llamada ya no necesita saber
+    // si el botón está presionado o no.
     /**
-     * Arranca (la primera vez que se llama) el vigía que lee el pin del
-     * botón de Morse (P0) directamente y mide la duración real de cada
-     * pulsación. Se puede seguir llamando en cada vuelta del loop, dentro
-     * de un "si Botón en pin P0 = 1 entonces" o no — no hace falta
-     * cambiar el programa existente, esta llamada ya no necesita saber
-     * si el botón está presionado o no.
+     * Starts reading the Morse button on P0: short = dot, long = dash.
      */
     //% blockId=morse_guardar
-    //% block="Guardar mensaje MORSE" group="ESPECIAL" weight=100 color=#9C27B0
+    //% block="Save MORSE message" group="SPECIAL" weight=100 color=#9C27B0
     export function guardarMensajeMorse(): void {
         if (!morseVigiaActivo) {
             morseVigiaActivo = true
@@ -155,13 +154,14 @@ namespace bloques {
         }
     }
 
+    // Cierra la letra pendiente (si quedó alguna a medio tipear) y
+    // reconstruye por completo el mensaje traducido a partir de todo el
+    // mensaje Morse acumulado hasta ahora.
     /**
-     * Cierra la letra pendiente (si quedó alguna a medio tipear) y
-     * reconstruye por completo el mensaje traducido a partir de todo el
-     * mensaje Morse acumulado hasta ahora.
+     * Translates the Morse message into letters.
      */
     //% blockId=morse_traducir
-    //% block="Traducir mensaje" group="ESPECIAL" weight=98 color=#9C27B0
+    //% block="Translate message" group="SPECIAL" weight=98 color=#9C27B0
     export function traducirMensaje(): void {
         morseCerrarLetraPendiente()
         if (morseVector1.length > 0 && morseVector1.charAt(morseVector1.length - 1) != " ") {
@@ -170,32 +170,35 @@ namespace bloques {
         morseRecalcularTraduccion()
     }
 
+    // Mensaje en código Morse (puntos/líneas) acumulado hasta ahora
+    // (últimos MORSE_VENTANA_CHARS caracteres como máximo).
     /**
-     * Mensaje en código Morse (puntos/líneas) acumulado hasta ahora
-     * (últimos MORSE_VENTANA_CHARS caracteres como máximo).
+     * The message written in dots and dashes.
      */
     //% blockId=morse_mensaje
-    //% block="Mensaje MORSE" group="ESPECIAL" weight=99 color=#9C27B0
+    //% block="MORSE Message" group="SPECIAL" weight=99 color=#9C27B0
     export function mensajeMorse(): string {
         return morseVentanaPantalla(morseVector1)
     }
 
+    // Mensaje traducido (texto) acumulado hasta ahora (últimos
+    // MORSE_VENTANA_CHARS caracteres como máximo).
     /**
-     * Mensaje traducido (texto) acumulado hasta ahora (últimos
-     * MORSE_VENTANA_CHARS caracteres como máximo).
+     * The message translated into letters.
      */
     //% blockId=morse_traducido
-    //% block="Mensaje TRADUCIDO" group="ESPECIAL" weight=97 color=#9C27B0
+    //% block="TRANSLATED Message" group="SPECIAL" weight=97 color=#9C27B0
     export function mensajeTraducido(): string {
         return morseVentanaPantalla(morseVector2)
     }
 
+    // Borra el mensaje Morse y el mensaje traducido acumulados, incluyendo
+    // cualquier letra que se estuviera tipeando en ese momento.
     /**
-     * Borra el mensaje Morse y el mensaje traducido acumulados, incluyendo
-     * cualquier letra que se estuviera tipeando en ese momento.
+     * Clears the Morse message and the translated message.
      */
     //% blockId=morse_borrar
-    //% block="Borrar MENSAJES" group="ESPECIAL" weight=96 color=#9C27B0
+    //% block="Clear MESSAGES" group="SPECIAL" weight=96 color=#9C27B0
     export function borrarMensajes(): void {
         morseSimboloActual = ""
         morseVector1 = " "

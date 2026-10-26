@@ -1,15 +1,13 @@
-/**
- * Puertos GPIO STV2 — mapeo interno a pines de la micro:bit.
- *
- * ATENCIÓN: el PUERTO 3 de la placa corresponde al pin P8 de la micro:bit,
- * NO al pin P3. Verificado en ORIGINAL/main.ts (p3 = AnalogPin.P8) y en
- * EXT4/blocks/smartteam4/puertos.ts (Ext4Puerto.P4 -> DigitalPin.P8).
- *
- *   PUERTO 0  ->  micro:bit P0
- *   PUERTO 1  ->  micro:bit P1
- *   PUERTO 2  ->  micro:bit P2
- *   PUERTO 3  ->  micro:bit P8   <-- excepción
- */
+// Puertos GPIO STV2 — mapeo interno a pines de la micro:bit.
+//
+// ATENCIÓN: el PUERTO 3 de la placa corresponde al pin P8 de la micro:bit,
+// NO al pin P3. Verificado en ORIGINAL/main.ts (p3 = AnalogPin.P8) y en
+// EXT4/blocks/smartteam4/puertos.ts (Ext4Puerto.P4 -> DigitalPin.P8).
+//
+//   PUERTO 0  ->  micro:bit P0
+//   PUERTO 1  ->  micro:bit P1
+//   PUERTO 2  ->  micro:bit P2
+//   PUERTO 3  ->  micro:bit P8   <-- excepción
 
 enum SabanaPuerto {
     //% block="P0"
@@ -23,9 +21,10 @@ enum SabanaPuerto {
 }
 
 namespace bloques {
+    // Convierte un puerto de la placa al DigitalPin correspondiente.
+    // Usar para lectura/escritura digital (botón, LED, hélice).
     /**
-     * Convierte un puerto de la placa al DigitalPin correspondiente.
-     * Usar para lectura/escritura digital (botón, LED, hélice).
+     * Converts a port to its digital pin.
      */
     export function puertoToDigitalPin(puerto: SabanaPuerto): DigitalPin {
         switch (puerto) {
@@ -37,9 +36,10 @@ namespace bloques {
         return DigitalPin.P0
     }
 
+    // Convierte un puerto de la placa al AnalogPin correspondiente.
+    // Usar para lectura analógica (potenciómetro, luz, suelo) y para servo.
     /**
-     * Convierte un puerto de la placa al AnalogPin correspondiente.
-     * Usar para lectura analógica (potenciómetro, luz, suelo) y para servo.
+     * Converts a port to its analog pin.
      */
     export function puertoToAnalogPin(puerto: SabanaPuerto): AnalogPin {
         switch (puerto) {

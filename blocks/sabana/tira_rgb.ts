@@ -26,17 +26,18 @@ namespace bloques {
         tiraRgbColores[index * 3 + 2] = b
     }
 
+    // STV2-9 — Tira RGB de 6 LEDs por I2C (dirección 0x24). Cada LED se
+    // elige con un selector de color (paleta).
     /**
-     * STV2-9 — Tira RGB de 6 LEDs por I2C (dirección 0x24). Cada LED se
-     * elige con un selector de color (paleta).
+     * Sets the color of each of the 6 LEDs on the strip.
      */
     //% blockId=tira_rgb
-    //% block="Tira RGB │ %led1 %led2 %led3 %led4 %led5 %led6 en pin I2C"
+    //% block="RGB Strip │ %led1 %led2 %led3 %led4 %led5 %led6 on I2C pin"
     //% led1.shadow="colorNumberPicker" led2.shadow="colorNumberPicker"
     //% led3.shadow="colorNumberPicker" led4.shadow="colorNumberPicker"
     //% led5.shadow="colorNumberPicker" led6.shadow="colorNumberPicker"
     //% inlineInputMode=inline
-    //% group="SALIDAS" color="#35BFE9" weight=98 blockGap=8
+    //% group="OUTPUTS" color="#35BFE9" weight=98 blockGap=8
     export function tiraRgb(
         led1: number, led2: number, led3: number,
         led4: number, led5: number, led6: number
@@ -50,15 +51,16 @@ namespace bloques {
         tiraRgbActualizar()
     }
 
+    // STV2-11 — Ajusta la tira RGB con valores independientes de R, G y B (0-255).
     /**
-     * STV2-11 — Ajusta la tira RGB con valores independientes de R, G y B (0-255).
+     * Lights the whole strip with a mix of red, green and blue (0 to 255).
      */
     //% blockId=tira_rgb_rgb
-    //% block="Tira RGB │ ajustada a R %r G %g B %b"
+    //% block="RGB Strip │ set to R %r G %g B %b"
     //% r.min=0 r.max=255 r.defl=255
     //% g.min=0 g.max=255 g.defl=255
     //% b.min=0 b.max=255 b.defl=255
-    //% group="SALIDAS" color="#35BFE9" weight=97 blockGap=8
+    //% group="OUTPUTS" color="#35BFE9" weight=97 blockGap=8
     export function tiraRgbAjustada(r: number, g: number, b: number): void {
         r = tiraRgbLimitar(r)
         g = tiraRgbLimitar(g)
@@ -71,12 +73,13 @@ namespace bloques {
         tiraRgbActualizar()
     }
 
+    // NUEVO — Apaga todos los LEDs de la tira RGB.
     /**
-     * NUEVO — Apaga todos los LEDs de la tira RGB.
+     * Turns off all the LEDs on the strip.
      */
     //% blockId=tira_rgb_apagar_todos
-    //% block="Tira RGB │ apagar todos"
-    //% group="SALIDAS" color="#35BFE9" weight=96 blockGap=8
+    //% block="RGB Strip │ turn off all"
+    //% group="OUTPUTS" color="#35BFE9" weight=96 blockGap=8
     export function tiraRgbApagarTodos(): void {
         for (let i = 0; i < 18; i++) {
             tiraRgbColores[i] = 0

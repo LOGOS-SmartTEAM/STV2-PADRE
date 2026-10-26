@@ -11,11 +11,11 @@ namespace bloques {
     }
 
     export enum SabanaMovimientoMotorUnico {
-        //% block="Rotar a la derecha"
+        //% block="Rotate right"
         Derecha = 0,
-        //% block="Rotar a la izquierda"
+        //% block="Rotate left"
         Izquierda = 1,
-        //% block="Frenar"
+        //% block="Brake"
         Frenar = 2,
     }
 
@@ -50,22 +50,24 @@ namespace bloques {
         pins.i2cWriteBuffer(addr, buf)
     }
 
+    // STV2-16 — Controla un motor individual (identificado por color/emoji)
+    // conectado por I2C. El botón "+" agrega el parámetro opcional de velocidad.
+    // Derecha = velocidad positiva, Izquierda = velocidad negativa, Frenar = 0.
     /**
-     * STV2-16 — Controla un motor individual (identificado por color/emoji)
-     * conectado por I2C. El botón "+" agrega el parámetro opcional de velocidad.
-     * Derecha = velocidad positiva, Izquierda = velocidad negativa, Frenar = 0.
+     * Spins one motor. Use + to choose the speed (0 to 100).
      */
     //% blockId=motor_multicolor
-    //% block="Motor │ %color %movimiento en pin I2C || Velocidad %velocidad"
+    //% block="Motor │ %color %movimiento on I2C pin || Speed %velocidad"
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
     //% expandableArgumentMode="toggle"
-    //% group="MOTORES" color="#35BFE9" weight=98 blockGap=8
+    //% group="MOTORS" color="#35BFE9" weight=98 blockGap=8
     export function motorMulticolor(
         color: SabanaColorMotor,
         movimiento: SabanaMovimientoMotorUnico,
         velocidad = 50
     ): void {
         const addr = colorMotorToAddr(color)
+        velocidad = Math.constrain(velocidad, 0, 100)
         let speed = 0
         if (movimiento == SabanaMovimientoMotorUnico.Derecha) speed = velocidad
         else if (movimiento == SabanaMovimientoMotorUnico.Izquierda) speed = -velocidad

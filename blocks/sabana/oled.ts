@@ -251,14 +251,15 @@ namespace bloques {
         oledData(bot)
     }
 
+    // STV2-14 — Escribe texto en el OLED (I2C), fila 0-3, columna 0-15.
+    // Reutiliza el enum SabanaColumna16 definido en lcd.ts.
     /**
-     * STV2-14 — Escribe texto en el OLED (I2C), fila 0-3, columna 0-15.
-     * Reutiliza el enum SabanaColumna16 definido en lcd.ts.
+     * Writes text or a number on the OLED screen.
      */
     //% blockId=oled_escribir
-    //% block="OLED │ Escribir %texto en fila %fila en columna %columna en pin I2C"
+    //% block="OLED │ Write %texto on row %fila at column %columna on I2C pin"
     //% texto.shadow=text texto.defl="abc"
-    //% group="PANTALLAS" color="#35BFE9" weight=90 blockGap=8
+    //% group="SCREENS" color="#35BFE9" weight=90 blockGap=8
     export function oledEscribir(texto: string | number, fila: SabanaOledFila, columna: SabanaColumna16): void {
         ensureOledInit()
         clearFila(fila)
@@ -270,12 +271,13 @@ namespace bloques {
         }
     }
 
+    // STV2-15 — Borra todos los textos del OLED (I2C).
     /**
-     * STV2-15 — Borra todos los textos del OLED (I2C).
+     * Clears everything on the OLED screen.
      */
     //% blockId=oled_borrar
-    //% block="OLED │ borrar textos en pin I2C"
-    //% group="PANTALLAS" color="#35BFE9" weight=85 blockGap=8
+    //% block="OLED │ clear text on I2C pin"
+    //% group="SCREENS" color="#35BFE9" weight=85 blockGap=8
     export function oledBorrar(): void {
         ensureOledInit()
         clearOled()

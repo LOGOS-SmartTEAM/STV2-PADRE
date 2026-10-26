@@ -98,14 +98,15 @@ namespace bloques {
         }
     }
 
+    // STV2-12 — Escribe texto en el LCD por I2C (dirección 0x20, protocolo
+    // HD44780 4-bit). LCD1602 real es de 16 columnas x 2 filas.
     /**
-     * STV2-12 — Escribe texto en el LCD por I2C (dirección 0x20, protocolo
-     * HD44780 4-bit). LCD1602 real es de 16 columnas x 2 filas.
+     * Writes text or a number on the LCD screen.
      */
     //% blockId=lcd_escribir
-    //% block="LCD │ Escribir %texto en fila %fila en columna %columna en pin I2C"
+    //% block="LCD │ Write %texto on row %fila at column %columna on I2C pin"
     //% texto.shadow=text texto.defl="abc"
-    //% group="PANTALLAS" color="#35BFE9" weight=100 blockGap=8
+    //% group="SCREENS" color="#35BFE9" weight=100 blockGap=8
     export function lcdEscribir(texto: string | number, fila: SabanaLcdFila, columna: SabanaColumna16): void {
         lcdAsegurarInit()
         const ahora = control.millis()
@@ -119,12 +120,13 @@ namespace bloques {
         }
     }
 
+    // STV2-13 — Borra todos los textos del LCD (I2C).
     /**
-     * STV2-13 — Borra todos los textos del LCD (I2C).
+     * Clears everything on the LCD screen.
      */
     //% blockId=lcd_borrar
-    //% block="LCD │ borrar textos en pin I2C"
-    //% group="PANTALLAS" color="#35BFE9" weight=95 blockGap=8
+    //% block="LCD │ clear text on I2C pin"
+    //% group="SCREENS" color="#35BFE9" weight=95 blockGap=8
     export function lcdBorrar(): void {
         lcdAsegurarInit()
         lcdComando(0x01)

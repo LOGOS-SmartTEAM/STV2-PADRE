@@ -1,23 +1,24 @@
 namespace bloques {
     export enum SabanaVerdaderoFalso {
-        //% block="Verdadero"
+        //% block="True"
         Verdadero = 0,
-        //% block="Falso"
+        //% block="False"
         Falso = 1,
     }
 
+    // Bloque booleano combinado del Ultrasonido (hexágono). El bloque
+    // redondo "Ultrasonido │ en pin I2C" (blockId ultrasonido, con
+    // su propio color celeste) queda encajado por defecto dentro del
+    // hexágono, como shadow block.
+    //
+    // Umbral de detección: 3 a 25 cm (inclusive), sobre la lectura en cm.
     /**
-     * Bloque booleano combinado del Ultrasonido (hexágono). El bloque
-     * redondo "Ultrasonido │ en pin I2C" (blockId ultrasonido, con
-     * su propio color celeste) queda encajado por defecto dentro del
-     * hexágono, como shadow block.
-     *
-     * Umbral de detección: 3 a 25 cm (inclusive), sobre la lectura en cm.
+     * Detects whether there is an object between 3 and 25 cm away.
      */
     //% blockId=ultrasonido_logico
-    //% block="%medida detecta objeto %valor"
+    //% block="%medida detects object %valor"
     //% medida.shadow=ultrasonido
-    //% group="SENSORES" color="#006970" weight=94 blockGap=8
+    //% group="SENSORS" color="#006970" weight=94 blockGap=8
     export function ultrasonidoLogico(medida: number, valor: SabanaVerdaderoFalso): boolean {
         const detectado = medida >= 3 && medida <= 25
         return valor == SabanaVerdaderoFalso.Verdadero ? detectado : !detectado

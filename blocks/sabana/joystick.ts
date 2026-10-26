@@ -1,20 +1,21 @@
 namespace bloques {
     export enum SabanaEjeJoystick {
-        //% block="Eje X"
+        //% block="X axis"
         EjeX = 0,
-        //% block="Eje Y"
+        //% block="Y axis"
         EjeY = 1,
     }
 
     const JOYSTICK_I2C_ADDR = 0x61
 
+    // STV2-8 — Joystick conectado por I2C (dirección 0x61). Rango −100 a 100
+    // (Protocolo-I2C/joystick_en.md). Color celeste I2C (2026-10-25).
     /**
-     * STV2-8 — Joystick conectado por I2C (dirección 0x61). COLOR GRIS:
-     * placeholder, el usuario tiene pendiente definir el diseño final.
+     * Reads the joystick position on the X or Y axis (−100 to 100).
      */
     //% blockId=joystick
-    //% block="Joystick │ %eje en pin I2C"
-    //% group="SENSORES" color="#9E9E9E" weight=89 blockGap=8
+    //% block="Joystick │ %eje on I2C pin"
+    //% group="SENSORS" color="#35BFE9" weight=89 blockGap=8
     export function joystick(eje: SabanaEjeJoystick): number {
         let buf = pins.i2cReadBuffer(JOYSTICK_I2C_ADDR, 3)
         if (eje == SabanaEjeJoystick.EjeY) {
@@ -25,27 +26,27 @@ namespace bloques {
     }
 
     export enum SabanaDireccionJoystick {
-        //% block="Arriba"
+        //% block="Up"
         Arriba = 0,
-        //% block="Abajo"
+        //% block="Down"
         Abajo = 1,
-        //% block="Izquierda"
+        //% block="Left"
         Izquierda = 2,
-        //% block="Derecha"
+        //% block="Right"
         Derecha = 3,
     }
 
+    // STV2-8b — Detección de dirección del Joystick (bloque redondo, no
+    // hexágono: devuelve number 1/0 en vez de boolean). Traducción de
+    // version-alex/block/joystick.ts -> rockerDetect(). Umbral ±50 sobre
+    // el valor crudo (sin la inversión de signo del eje Y del reporter
+    // de arriba). Color celeste I2C, igual que el resto del Joystick.
     /**
-     * STV2-8b — Detección de dirección del Joystick (bloque redondo, no
-     * hexágono: devuelve number 1/0 en vez de boolean). Traducción de
-     * version-alex/block/joystick.ts -> rockerDetect(). Umbral ±50 sobre
-     * el valor crudo (sin la inversión de signo del eje Y del reporter
-     * de arriba). COLOR GRIS: placeholder, mismo criterio que el resto
-     * del Joystick.
+     * Returns 1 if the joystick points in that direction and 0 if not.
      */
     //% blockId=joystick_detecta
-    //% block="Joystick │ detecta dirección %direccion"
-    //% group="SENSORES" color="#9E9E9E" weight=88 blockGap=8
+    //% block="Joystick │ detects direction %direccion"
+    //% group="SENSORS" color="#35BFE9" weight=88 blockGap=8
     export function joystickDetecta(direccion: SabanaDireccionJoystick): number {
         let buf = pins.i2cReadBuffer(JOYSTICK_I2C_ADDR, 3)
         let ud = buf.getNumber(NumberFormat.Int8BE, 2)

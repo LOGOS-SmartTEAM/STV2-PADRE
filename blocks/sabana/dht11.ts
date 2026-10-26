@@ -1,21 +1,22 @@
 namespace bloques {
     export enum SabanaDatoDHT11 {
-        //% block="Humedad"
+        //% block="Humidity"
         Humedad = 0,
-        //% block="Temperatura"
+        //% block="Temperature"
         Temperatura = 1,
     }
 
     const DHT11_I2C_ADDR = 0x27
 
+    // STV2-3 — DHT11 (humedad/temperatura) por I2C (dirección 0x27).
+    // Rangos del sensor: Humedad 20% a 90% RH · Temperatura 0°C a 50°C
+    // (enteros, sin decimales).
     /**
-     * STV2-3 — DHT11 (humedad/temperatura) por I2C (dirección 0x27).
-     * Rangos del sensor: Humedad 20% a 90% RH · Temperatura 0°C a 50°C
-     * (enteros, sin decimales).
+     * Measures temperature (°C) or humidity (%).
      */
     //% blockId=dht11
-    //% block="%dato │ en pin I2C"
-    //% group="SENSORES" color="#35BFE9" weight=93 blockGap=8
+    //% block="%dato │ on I2C pin"
+    //% group="SENSORS" color="#35BFE9" weight=93 blockGap=8
     export function dht11(dato: SabanaDatoDHT11): number {
         let trigger = pins.createBuffer(1)
         trigger[0] = 0xAC
