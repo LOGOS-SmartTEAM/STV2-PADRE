@@ -29,6 +29,7 @@
   "bloques.puertoToDigitalPin": "Converts a port to its digital pin.",
   "bloques.restarCantidad": "Subtracts 1 from Quantity.",
   "bloques.robitApagarLeds": "Turns off ROBIT's and the ultrasonic sensor's LEDs.",
+  "bloques.robitFrenar": "Stops ROBIT (sets the motors to zero).",
   "bloques.robitGirar": "ROBIT turns 90° to the left or right.",
   "bloques.robitLedRgb": "Turns on ROBIT's and the ultrasonic sensor's LEDs with the chosen color.",
   "bloques.robitMostrarCadena": "Shows text on the micro:bit LED matrix, slow or fast.",

@@ -29,6 +29,7 @@
   "bloques.puertoToDigitalPin": "Converte uma porta no seu pino digital.",
   "bloques.restarCantidad": "Subtrai 1 de Quantidade.",
   "bloques.robitApagarLeds": "Apaga as luzes do ROBIT e do ultrassom.",
+  "bloques.robitFrenar": "Freia o ROBIT (coloca os motores em zero).",
   "bloques.robitGirar": "O ROBIT gira 90° para a esquerda ou para a direita.",
   "bloques.robitLedRgb": "Acende as luzes do ROBIT e do ultrassom com a cor escolhida.",
   "bloques.robitMostrarCadena": "Mostra um texto na matriz de LEDs da micro:bit, devagar ou rápido.",

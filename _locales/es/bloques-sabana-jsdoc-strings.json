@@ -29,6 +29,7 @@
   "bloques.puertoToDigitalPin": "Convierte un puerto en su pin digital.",
   "bloques.restarCantidad": "Resta 1 a Cantidad.",
   "bloques.robitApagarLeds": "Apaga las luces del ROBIT y del ultrasonido.",
+  "bloques.robitFrenar": "Frena el ROBIT (pone los motores en cero).",
   "bloques.robitGirar": "El ROBIT gira 90° hacia la izquierda o la derecha.",
   "bloques.robitLedRgb": "Prende las luces del ROBIT y del ultrasonido con el color elegido.",
   "bloques.robitMostrarCadena": "Muestra un texto en la matriz de LEDs de la micro:bit, lento o rápido.",

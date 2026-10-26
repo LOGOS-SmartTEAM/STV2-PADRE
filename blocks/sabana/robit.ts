@@ -109,7 +109,7 @@ namespace bloques {
      * Turns on ROBIT's and the ultrasonic sensor's LEDs with the chosen color.
      */
     //% blockId=robit_led_rgb
-    //% block="ROBIT Turn on LEDs │ Color %color"
+    //% block="ROBIT │ Turn on LEDs color %color"
     //% color.shadow="colorNumberPicker"
     //% group="OUTPUTS" color="#9C27B0" weight=101 blockGap=8
     export function robitLedRgb(color: number): void {
@@ -144,7 +144,7 @@ namespace bloques {
      * ROBIT moves forward or backward the chosen centimeters (up to 50).
      */
     //% blockId=robit_movimiento_cm
-    //% block="ROBIT %movimiento │ Speed %velocidad for %cm cm"
+    //% block="ROBIT │ %movimiento at speed %velocidad for %cm cm"
     //% velocidad.min=0 velocidad.max=100 velocidad.defl=50
     //% cm.min=0 cm.max=50 cm.defl=10
     //% group="MOVEMENT" color="#9C27B0" weight=101 blockGap=8
@@ -177,6 +177,21 @@ namespace bloques {
         pins.i2cWriteBuffer(ROBIT_I2C_ADDR, cmdBuff)
 
         robitEsperarFin()
+    }
+
+    // Frena el chasis ROBIT (I2C 0x09): orden 0 en el registro de motores
+    // 0x8C, igual que logos-smart (motionStop). Pone los motores en cero.
+    /**
+     * Stops ROBIT (sets the motors to zero).
+     */
+    //% blockId=robit_frenar
+    //% block="ROBIT │ Brake"
+    //% group="MOVEMENT" color="#9C27B0" weight=100.75 blockGap=8
+    export function robitFrenar(): void {
+        let cmdBuff = pins.createBuffer(2)
+        cmdBuff.setNumber(NumberFormat.UInt8BE, 0, ROBIT_MOTORES_BASE + 0x00)
+        cmdBuff.setNumber(NumberFormat.UInt8BE, 1, 0)
+        pins.i2cWriteBuffer(ROBIT_I2C_ADDR, cmdBuff)
     }
 
     // Giro del chasis ROBIT sobre su propio eje (I2C 0x09): 90° fijos a
