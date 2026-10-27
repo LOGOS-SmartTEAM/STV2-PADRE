@@ -1,6 +1,6 @@
 {
     "name": "bloques-sabana",
-    "version": "4.0.1",
+    "version": "4.0.2",
     "description": "BLOQUES SABANA — extensión de validación visual (textos, formas y colores) para MakeCode micro:bit",
     "license": "MIT",
     "dependencies": {

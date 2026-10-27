@@ -33,6 +33,7 @@
   "bloques.robitGirar": "O ROBIT gira 90° para a esquerda ou para a direita.",
   "bloques.robitLedRgb": "Acende as luzes do ROBIT e do ultrassom com a cor escolhida.",
   "bloques.robitMostrarCadena": "Mostra um texto na matriz de LEDs da micro:bit, devagar ou rápido.",
+  "bloques.robitMover": "O ROBIT avança ou recua sem parar (até usar ROBIT │ Frear).",
   "bloques.robitMovimientoCm": "O ROBIT avança ou recua os centímetros escolhidos (até 50).",
   "bloques.seguidorAccionCentro": "Movimento e velocidade (0 a 100) para este sensor.",
   "bloques.seguidorAccionDerecha": "Movimento e velocidade (0 a 100) para este sensor.",

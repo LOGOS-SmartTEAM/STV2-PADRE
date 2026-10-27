@@ -132,6 +132,33 @@ namespace bloques {
         robitLucesUltrasonido(0, 0, 0, 0)
     }
 
+    // Movimiento continuo del chasis ROBIT (I2C 0x09): avanza o retrocede sin
+    // parar hasta otra orden (por ejemplo ROBIT │ Frenar). No espera.
+    // Protocolo igual a logos-smart (motionSpeed): velocidad en 0x8D (dos
+    // valores de 16 bits) y orden en 0x8C (1 = avanzar, 2 = retroceder).
+    // Velocidad fija 50, igual que ROBIT │ Girar 90°.
+    /**
+     * ROBIT moves forward or backward without stopping (until ROBIT │ Brake).
+     */
+    //% blockId=robit_mover
+    //% block="ROBIT │ %movimiento"
+    //% group="MOVEMENT" color="#9C27B0" weight=101.5 blockGap=8
+    export function robitMover(movimiento: SabanaAvanceRetroceso): void {
+        const velocidad = 50
+        let spBuff = pins.createBuffer(5)
+        spBuff.setNumber(NumberFormat.UInt8BE, 0, ROBIT_MOTORES_BASE + 0x01)
+        spBuff.setNumber(NumberFormat.UInt8BE, 1, (velocidad >> 8) & 0xFF)
+        spBuff.setNumber(NumberFormat.UInt8BE, 2, velocidad & 0xFF)
+        spBuff.setNumber(NumberFormat.UInt8BE, 3, (velocidad >> 8) & 0xFF)
+        spBuff.setNumber(NumberFormat.UInt8BE, 4, velocidad & 0xFF)
+        pins.i2cWriteBuffer(ROBIT_I2C_ADDR, spBuff)
+
+        let cmdBuff = pins.createBuffer(2)
+        cmdBuff.setNumber(NumberFormat.UInt8BE, 0, ROBIT_MOTORES_BASE + 0x00)
+        cmdBuff.setNumber(NumberFormat.UInt8BE, 1, movimiento == SabanaAvanceRetroceso.Avanzar ? 1 : 2)
+        pins.i2cWriteBuffer(ROBIT_I2C_ADDR, cmdBuff)
+    }
+
     // Movimiento del chasis ROBIT por una distancia en cm (I2C 0x09). Solo
     // Avanzar/Retroceder. El bloque espera hasta que el robot termina.
     //

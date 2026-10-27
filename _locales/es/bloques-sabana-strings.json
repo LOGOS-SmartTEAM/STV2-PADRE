@@ -113,6 +113,7 @@
   "bloques.robitGirar|block": "ROBIT │ Girar 90° a la %direccion",
   "bloques.robitLedRgb|block": "ROBIT │ Prender LEDs color %color",
   "bloques.robitMostrarCadena|block": "ROBIT │ Mostrar cadena %texto con velocidad %velocidad",
+  "bloques.robitMover|block": "ROBIT │ %movimiento",
   "bloques.robitMovimientoCm|block": "ROBIT │ %movimiento a velocidad %velocidad por %cm cm",
   "bloques.seguidorAccionCentro|block": "$accion Velocidad $velocidad",
   "bloques.seguidorAccionDerecha|block": "$accion Velocidad $velocidad",
