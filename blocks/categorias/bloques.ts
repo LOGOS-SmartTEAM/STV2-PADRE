@@ -2,7 +2,7 @@
 /**
  * SmartTEAM blocks: sensors, outputs, motors and screens.
  */
-//% color="#1565C0" icon="\uf135" block="PADRE" weight=200 groups=['VARIABLES', 'SENSORS', 'OUTPUTS', 'MOVEMENT', 'MOTORS', 'SCREENS', 'SPECIAL']
+//% color="#1565C0" icon="\uf135" block="PADRE" weight=200 groups=['VARIABLES', 'SENSORS', 'OUTPUTS', 'MOVEMENT', 'MOTORS', 'SCREENS', 'Bluetooth', 'SPECIAL']
 namespace bloques {
     //% blockHidden=1
     export function __categoria() { }
