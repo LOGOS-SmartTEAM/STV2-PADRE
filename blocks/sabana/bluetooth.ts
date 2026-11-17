@@ -15,8 +15,15 @@
 //   - Color #796EB0 (violeta STEAMbit, el de la extensión original) en cada
 //     bloque, porque la categoría PADRE es azul.
 //
-// Requiere la dependencia "bluetooth" en pxt.json (incompatible con radio)
-// y "No Pairing Required" en la configuración de cada proyecto de MakeCode.
+// En uso (violeta, 2026-11-17): mostrar nombre, al recibir, número, texto,
+// enviar número y enviar texto, en ese orden y pegados (blockGap=8). Los
+// otros 11 quedan en gris #9E9E9E al final del grupo (weight 35 a 25):
+// funcionan igual, pero no se usan en las EXT.
+//
+// Requiere la dependencia "bluetooth" en pxt.json (incompatible con radio).
+// "No se requiere vincular" (No Pairing Required) ya viene activado por
+// defecto: lo pone yotta.optionalConfig en pxt.json; si se elige otro modo en
+// ⚙ Configuración del proyecto, gana ese.
 //
 // Protocolo de texto por el servicio UART de Bluetooth, una línea por
 // mensaje `TIPO|etiqueta|valor\n` (solo LF):
@@ -422,7 +429,7 @@ namespace bloques {
      */
     //% blockId=bluetooth_al_conectarse
     //% block="on app connected"
-    //% group="Bluetooth" color="#796EB0" weight=100 blockGap=8
+    //% group="Bluetooth" color="#9E9E9E" weight=35 blockGap=8
     export function bluetoothAlConectarse(handler: () => void): void {
         btInit()
         btConnectHandlers.push(handler)
@@ -433,7 +440,7 @@ namespace bloques {
      */
     //% blockId=bluetooth_al_desconectarse
     //% block="on app disconnected"
-    //% group="Bluetooth" color="#796EB0" weight=99 blockGap=8
+    //% group="Bluetooth" color="#9E9E9E" weight=34 blockGap=8
     export function bluetoothAlDesconectarse(handler: () => void): void {
         btInit()
         btDisconnectHandlers.push(handler)
@@ -444,7 +451,7 @@ namespace bloques {
      */
     //% blockId=bluetooth_app_conectada
     //% block="app connected"
-    //% group="Bluetooth" color="#796EB0" weight=98
+    //% group="Bluetooth" color="#9E9E9E" weight=33
     export function bluetoothAppConectada(): boolean {
         btInit()
         return btConnected
@@ -456,7 +463,7 @@ namespace bloques {
      */
     //% blockId=bluetooth_mostrar_nombre
     //% block="show bluetooth name of the board"
-    //% group="Bluetooth" color="#796EB0" weight=97
+    //% group="Bluetooth" color="#796EB0" weight=97 blockGap=8
     export function bluetoothMostrarNombre(): void {
         btInit()
         basic.showString(control.deviceName().toUpperCase())
@@ -472,7 +479,7 @@ namespace bloques {
     //% etiqueta.shadow=bluetooth_etiqueta
     //% etiqueta.defl="A"
     //% draggableParameters="reporter"
-    //% group="Bluetooth" color="#796EB0" weight=95
+    //% group="Bluetooth" color="#796EB0" weight=95 blockGap=8
     export function bluetoothAlRecibir(etiqueta: string, handler: (value: number) => void): void {
         btInit()
         btDeclare(etiqueta, "num", "w")
@@ -515,7 +522,7 @@ namespace bloques {
     //% block="$etiqueta is on"
     //% etiqueta.shadow=bluetooth_etiqueta
     //% etiqueta.defl="A"
-    //% group="Bluetooth" color="#796EB0" weight=88
+    //% group="Bluetooth" color="#9E9E9E" weight=32
     export function bluetoothActivado(etiqueta: string): boolean {
         btInit()
         btDeclare(etiqueta, "bool", "w")
@@ -531,7 +538,7 @@ namespace bloques {
     //% block="send $valor to app with label $etiqueta"
     //% etiqueta.shadow=bluetooth_etiqueta
     //% etiqueta.defl="T"
-    //% group="Bluetooth" color="#796EB0" weight=80
+    //% group="Bluetooth" color="#796EB0" weight=80 blockGap=8
     export function bluetoothEnviarNumero(etiqueta: string, valor: number): void {
         btInit()
         btSendDataLine(etiqueta, "" + valor, "num")
@@ -545,7 +552,7 @@ namespace bloques {
      */
     //% blockId=bluetooth_cruceta
     //% block="app d-pad $direccion"
-    //% group="Bluetooth" color="#796EB0" weight=50 blockGap=8
+    //% group="Bluetooth" color="#9E9E9E" weight=31 blockGap=8
     export function bluetoothCruceta(direccion: SabanaBluetoothCruceta): boolean {
         btInit()
         const code = btJoyDirection
@@ -565,7 +572,7 @@ namespace bloques {
      */
     //% blockId=bluetooth_joystick
     //% block="app joystick $eje"
-    //% group="Bluetooth" color="#796EB0" weight=49 blockGap=8
+    //% group="Bluetooth" color="#9E9E9E" weight=30 blockGap=8
     export function bluetoothJoystick(eje: SabanaBluetoothEje): number {
         btInit()
         if (eje == SabanaBluetoothEje.X) return btJoyX
@@ -579,7 +586,7 @@ namespace bloques {
      */
     //% blockId=bluetooth_velocidad_rueda
     //% block="wheel speed $rueda"
-    //% group="Bluetooth" color="#796EB0" weight=48 blockGap=8
+    //% group="Bluetooth" color="#9E9E9E" weight=29 blockGap=8
     export function bluetoothVelocidadRueda(rueda: SabanaBluetoothRueda): number {
         btInit()
         return btWheelMix(rueda == SabanaBluetoothRueda.Izquierda)
@@ -590,7 +597,7 @@ namespace bloques {
      */
     //% blockId=bluetooth_boton_presionado
     //% block="app button $boton pressed"
-    //% group="Bluetooth" color="#796EB0" weight=47
+    //% group="Bluetooth" color="#9E9E9E" weight=28
     export function bluetoothBotonPresionado(boton: SabanaBluetoothBoton): boolean {
         btInit()
         return boton == SabanaBluetoothBoton.A ? btJoyButtonA : btJoyButtonB
@@ -606,7 +613,7 @@ namespace bloques {
     //% etiqueta.shadow=bluetooth_etiqueta
     //% etiqueta.defl="M"
     //% texto.defl="hello"
-    //% group="Bluetooth" color="#796EB0" weight=40 blockGap=8
+    //% group="Bluetooth" color="#796EB0" weight=40
     export function bluetoothEnviarTexto(etiqueta: string, texto: string): void {
         btInit()
         btSendDataLine(etiqueta, texto, "text")
@@ -620,7 +627,7 @@ namespace bloques {
     //% etiqueta.shadow=bluetooth_etiqueta
     //% etiqueta.defl="L"
     //% valor.shadow=toggleYesNo
-    //% group="Bluetooth" color="#796EB0" weight=39 blockGap=8
+    //% group="Bluetooth" color="#9E9E9E" weight=27 blockGap=8
     export function bluetoothEnviarSiNo(etiqueta: string, valor: boolean): void {
         btInit()
         btSendDataLine(etiqueta, valor ? "1" : "0", "bool")
@@ -633,7 +640,7 @@ namespace bloques {
     //% blockId=bluetooth_enviar_evento
     //% block="send event $nombre to app"
     //% nombre.defl="buttonA"
-    //% group="Bluetooth" color="#796EB0" weight=38
+    //% group="Bluetooth" color="#9E9E9E" weight=26
     export function bluetoothEnviarEvento(nombre: string): void {
         btInit()
         btSendEventLine(nombre)
@@ -646,9 +653,19 @@ namespace bloques {
     //% blockId=bluetooth_pausa_envios
     //% block="set pause between sends to $ms ms"
     //% ms.defl=100
-    //% group="Bluetooth" color="#796EB0" weight=30
+    //% group="Bluetooth" color="#9E9E9E" weight=25
     export function bluetoothPausaEnvios(ms: number): void {
         btInit()
         btTxGapMs = Math.max(0, ms)
     }
 }
+
+// Oculta la categoría azul "Bluetooth" oficial de MakeCode (2026-11-17). La
+// dependencia "bluetooth" sigue haciendo falta para los bloques de arriba,
+// pero sus bloques sueltos confunden y algunos rompen los nuestros (por
+// ejemplo "al recibir datos" reemplaza el evento UART que usa btInit). Los
+// atributos de un namespace se fusionan entre paquetes y el toolbox no
+// muestra los namespaces con deprecated. Los bloques oficiales siguen
+// existiendo: un proyecto viejo que los use se abre igual.
+//% deprecated=true
+namespace bluetooth { }
